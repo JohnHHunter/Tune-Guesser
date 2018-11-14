@@ -45,6 +45,7 @@ class GameRoom(db.Model):
 
 
 class PlayerToGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     playerID = db.column(db.Integer)
     gameRoomID = db.column(db.Integer)
     points = db.column(db.Integer)
@@ -76,6 +77,7 @@ class Song(db.Model):
 
 
 class SongToGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     gameID = db.Column(db.Integer)
     songID = db.column(db.Integer)
     position = db.column(db.Integer)
