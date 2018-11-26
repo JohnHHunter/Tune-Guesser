@@ -32,6 +32,7 @@ class Player(UserMixin, db.Model):
 class GameRoom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
+    hostID = db.Column(db.Integer)
     playerCount = db.Column(db.Integer)
     category = db.Column(db.String(64))
     isActive = registered = db.column(db.Boolean)
