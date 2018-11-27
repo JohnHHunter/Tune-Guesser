@@ -34,7 +34,7 @@ def create_room():
     form = RoomForm()
     if form.validate_on_submit():
         cr = GameRoom(name=form.name.data, category= form.catergory.data, private= form.private.data, playerCount= 1,
-                      isActive= true, hostID=# IDK )
+                      isActive= True, hostID=# IDK )
 
         db.session.add(cr)
         db.session.commit()
