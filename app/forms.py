@@ -10,7 +10,13 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Submit')
 
+class RoomForm(FlaskForm):
+    name = StringField('Room Name')
+    catergory = PasswordField('Room Category')
+    private = BooleanField('Make room private ?')
+    submit = SubmitField('Submit')
 
+'''
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -28,3 +34,4 @@ class RegistrationForm(FlaskForm):
         user = Player.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+'''
