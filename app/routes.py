@@ -44,8 +44,8 @@ def leaderboard():
 def create_room():
     form = RoomForm()
     if form.validate_on_submit():
-        cr = GameRoom(name=form.name.data, category= form.catergory.data, private= form.private.data, playerCount= 1,
-                      isActive= true, hostID=# IDK )
+        cr = GameRoom(name=form.name.data, category=form.catergory.data, private=form.private.data, playerCount=1,
+                      isActive=True, hostID=0)  # IDK ABOUT HOST ID
 
         db.session.add(cr)
         db.session.commit()
