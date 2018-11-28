@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RoomForm
+from app.forms import LoginForm, RoomForm, RegistrationForm
 from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -13,7 +13,8 @@ def index():
 
 @app.route('/register')
 def register():
-    return render_template('register.html', title='Register')
+    form = RegistrationForm()
+    return render_template('register.html', form=form, title='Register')
 
 
 @app.route('/login')
