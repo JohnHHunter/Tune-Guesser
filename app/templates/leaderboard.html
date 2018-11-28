@@ -4,4 +4,8 @@
 {% block app_content %}
         <h1>Leaderboard</h1>
         <a href="{{ url_for("home") }}">Back</a>
+
+        {% for player in top_correct_guesses %}
+            <p>{{ player }}</p><br>
+        {% endfor %}
 {% endblock %}

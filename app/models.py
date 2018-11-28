@@ -9,7 +9,7 @@ def load_player(id):
 '''
 
 
-class Player(UserMixin, db.Model):
+class player(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -30,8 +30,8 @@ class Player(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class GameRoom(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class game_room(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), index=True, unique=True)
     hostID = db.Column(db.Integer)
     playerCount = db.Column(db.Integer)
@@ -46,8 +46,8 @@ class GameRoom(db.Model):
         return '<Room: {}>'.format(self.code)
 
 
-class PlayerToGame(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class player_to_game(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     playerID = db.column(db.Integer)
     gameRoomID = db.column(db.Integer)
     points = db.column(db.Integer)
@@ -56,8 +56,8 @@ class PlayerToGame(db.Model):
         return '<PlayerToGame: {}>'.format(self.points)
 
 
-class ChatMessage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class chat_message(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     playerID = db.column(db.Integer)
     gameRoomID = db.column(db.Integer)
     message = db.Column(db.String(64))
@@ -65,25 +65,22 @@ class ChatMessage(db.Model):
     correctAnswer = db.column(db.Boolean)
 
     def __repr__(self):
-        return '<' \
-               'Message: {}>'.format(self.message)
+        return '<Message: {}>'.format(self.message)
 
 
-class Song(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class song(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     trackID = db.column(db.Integer)
 
     def __repr__(self):
-        return '<' \
-               'SongID: {}>'.format(self.trackID)
+        return '<SongID: {}>'.format(self.trackID)
 
 
-class SongToGame(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class song_to_game(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     gameID = db.Column(db.Integer)
     songID = db.column(db.Integer)
     position = db.column(db.Integer)
 
     def __repr__(self):
-        return '<' \
-               'SongToGame: {}>'.format(self.position)
+        return '<SongToGame: {}>'.format(self.position)
