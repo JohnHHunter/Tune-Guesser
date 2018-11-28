@@ -1,11 +1,12 @@
-from app import db, login
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-
+'''
 @login.user_loader
 def load_player(id):
     return Player.query.get(int(id))
+'''
 
 
 class Player(UserMixin, db.Model):
