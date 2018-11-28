@@ -53,7 +53,7 @@ def create_room():
 
         db.session.add(cr)
         db.session.commit()
-    return render_template('create_room.html', title='Home')
+    return render_template('create_room.html', title='Create Room', form=form)
 
 
 @app.route('/reset_db')
