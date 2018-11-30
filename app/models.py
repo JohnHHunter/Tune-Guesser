@@ -13,11 +13,11 @@ class player(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    registered = db.column(db.Boolean)
-    totalSongsPlayed = db.column(db.Integer)
-    totalCorrectGuesses = db.column(db.Integer)
-    monthlySongsPlayed = db.column(db.Integer)
-    monthlyCorrectGuesses = db.column(db.Integer)
+    registered = db.Column(db.Boolean)
+    totalSongsPlayed = db.Column(db.Integer)
+    totalCorrectGuesses = db.Column(db.Integer)
+    monthlySongsPlayed = db.Column(db.Integer)
+    monthlyCorrectGuesses = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User: {}>'.format(self.username)
@@ -35,11 +35,11 @@ class game_room(db.Model):
     hostID = db.Column(db.Integer)
     playerCount = db.Column(db.Integer)
     category = db.Column(db.String(64))
-    isActive = registered = db.column(db.Boolean)
-    private = registered = db.column(db.Boolean)
+    isActive = registered = db.Column(db.Boolean)
+    private = registered = db.Column(db.Boolean)
     code = db.Column(db.String(4))
-    created = db.column(db.DateTime)
-    updated = db.column(db.DateTime)
+    created = db.Column(db.DateTime)
+    updated = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Room: {}>'.format(self.code)
@@ -47,9 +47,9 @@ class game_room(db.Model):
 
 class player_to_game(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    playerID = db.column(db.Integer)
-    gameRoomID = db.column(db.Integer)
-    points = db.column(db.Integer)
+    playerID = db.Column(db.Integer)
+    gameRoomID = db.Column(db.Integer)
+    points = db.Column(db.Integer)
 
     def __repr__(self):
         return '<PlayerToGame: {}>'.format(self.points)
@@ -58,10 +58,10 @@ class player_to_game(db.Model):
 class chat_message(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     playerID = db.column(db.Integer)
-    gameRoomID = db.column(db.Integer)
+    gameRoomID = db.Column(db.Integer)
     message = db.Column(db.String(64))
-    created = db.column(db.DateTime)
-    correctAnswer = db.column(db.Boolean)
+    created = db.Column(db.DateTime)
+    correctAnswer = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<Message: {}>'.format(self.message)
@@ -69,7 +69,7 @@ class chat_message(db.Model):
 
 class song(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    trackID = db.column(db.Integer)
+    trackID = db.Column(db.Integer)
 
     def __repr__(self):
         return '<SongID: {}>'.format(self.trackID)
@@ -79,7 +79,7 @@ class song_to_game(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     gameID = db.Column(db.Integer)
     songID = db.column(db.Integer)
-    position = db.column(db.Integer)
+    position = db.Column(db.Integer)
 
     def __repr__(self):
         return '<SongToGame: {}>'.format(self.position)
