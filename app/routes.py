@@ -60,20 +60,22 @@ def home():
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 @login_required
-def leaderboard(): #trying to get one last thing to work
+def leaderboard():  # trying to get one last thing to work
     players = player.query.all()
     list_size = 1
     top_correct_guesses = []
+    players_on_leaderboard = []
     while list_size <= 10:
-        top_player = player.query.filter_by(id=1).first()
+        top_score = 0
         for person in players:
-            person_int = person.totalCorrectGuesses
-            top_player_int = top_player.totalCorrectGuesses
-            if (person_int > top_player_int) and (person not in top_correct_guesses):
+            if (person.totalCorrectGuesses > top_score) and (person not in players_on_leaderboard):
                 top_player = person
-        player_to_add = str(list_size) + ". " + top_player.username
+                top_score = person.totalCorrectGuesses
+        players_on_leaderboard.append(top_player)
+        player_to_add = str(list_size) + ". " + top_player.username + " - " + str(top_player.totalCorrectGuesses)
         top_correct_guesses.append(player_to_add)
         list_size += 1
+
     return render_template('leaderboard.html', top_correct_guesses=top_correct_guesses, title='Home')
 
 
@@ -124,7 +126,6 @@ def reset_db():
     ]
 
     for person in players:
-        person.totalCorrectGuesses = 500
         db.session.add(person)
     db.session.commit()
 

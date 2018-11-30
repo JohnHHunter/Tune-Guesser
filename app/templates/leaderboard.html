@@ -3,9 +3,11 @@
 
 {% block app_content %}
         <h1>Leaderboard</h1>
-        <a href="{{ url_for("home") }}">Back</a>
+        <h2>Top Correct Guesses of All Time</h2>
 
         {% for player in top_correct_guesses %}
             <p>{{ player }}</p><br>
         {% endfor %}
+
+        <a href="{{ url_for("home") }}">Back</a>
 {% endblock %}
