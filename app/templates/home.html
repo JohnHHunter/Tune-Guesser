@@ -3,6 +3,13 @@
 
 {% block app_content %}
         <h1>Choose a Game</h1>
-        <a href="{{ url_for("index") }}">Home</a>
-        <a href="{{ url_for("leaderboard") }}">Leaderboard</a>
+
+        {% for game in game_list %}
+            <!-- Need to get this link to work -->
+            <h2><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></h2>
+        {% endfor %}
+
+
+        <a href="{{ url_for("index") }}">Home</a><br>
+        <a href="{{ url_for("create_room") }}">Create Room</a><br>
 {% endblock %}

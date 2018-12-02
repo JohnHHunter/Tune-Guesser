@@ -4,6 +4,9 @@ from app.forms import LoginForm, RoomForm, RegistrationForm
 from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+import string
+import random
+from datetime import datetime
 
 
 @app.route('/logout')
@@ -55,11 +58,11 @@ def login():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html', title='Home')
+    game_list = game_room.query.all()
+    return render_template('home.html', title='Home', game_list=game_list)
 
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
-@login_required
 def leaderboard():  # trying to get one last thing to work
     players = player.query.all()
     list_size = 1
@@ -79,17 +82,34 @@ def leaderboard():  # trying to get one last thing to work
     return render_template('leaderboard.html', top_correct_guesses=top_correct_guesses, title='Home')
 
 
-@app.route('/create_room')
+@app.route('/create_room', methods=['GET', 'POST'])
 @login_required
 def create_room():
     form = RoomForm()
     if form.validate_on_submit():
-        cr = game_room(name=form.name.data, category=form.catergory.data, private=form.private.data, playerCount=1,
-                       isActive=True, hostID=1)  # IDK ABOUT HOST ID
-
+        # Code generator
+        chars = string.ascii_uppercase + string.digits
+        size = 4
+        # Check to see if code exists
+        while True:
+            code = ''.join(random.choice(chars) for _ in range(size))
+            rooms_with_code = game_room.query.filter_by(code=code).all()
+            if not rooms_with_code:
+                break
+        cr = game_room(name=form.name.data, hostID=current_user.id, playerCount=1, category=form.category.data,
+                       isActive=True, code=code, created=datetime.utcnow(), updated=datetime.utcnow(),
+                       private=form.private.data)
         db.session.add(cr)
         db.session.commit()
+        return redirect(url_for("room_game", code=code))
     return render_template('create_room.html', title='Create Room', form=form)
+
+
+@app.route('/<code>', methods=['GET', 'POST'])
+@login_required
+def room_game(code):
+    game = game_room.query.filter_by(code=code).first()
+    return render_template('game_room.html', title=code, room=game)
 
 
 @app.route('/reset_db')

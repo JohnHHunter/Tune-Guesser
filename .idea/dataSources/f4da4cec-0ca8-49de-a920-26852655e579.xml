@@ -90,21 +90,21 @@
       <Position>6</Position>
       <DataType>BOOLEAN|0s</DataType>
     </column>
-    <column id="30" parent="8" name="registered">
+    <column id="30" parent="8" name="code">
       <Position>7</Position>
-      <DataType>BOOLEAN|0s</DataType>
-    </column>
-    <column id="31" parent="8" name="code">
-      <Position>8</Position>
       <DataType>VARCHAR(4)|0s</DataType>
     </column>
-    <column id="32" parent="8" name="created">
+    <column id="31" parent="8" name="created">
+      <Position>8</Position>
+      <DataType>DATETIME|0s</DataType>
+    </column>
+    <column id="32" parent="8" name="updated">
       <Position>9</Position>
       <DataType>DATETIME|0s</DataType>
     </column>
-    <column id="33" parent="8" name="updated">
+    <column id="33" parent="8" name="private">
       <Position>10</Position>
-      <DataType>DATETIME|0s</DataType>
+      <DataType>BOOLEAN|0s</DataType>
     </column>
     <index id="34" parent="8" name="ix_game_room_name">
       <ColNames>name</ColNames>
@@ -115,134 +115,128 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <check id="36" parent="8">
-      <Predicate>&quot;isActive&quot; IN (0, 1)</Predicate>
-    </check>
-    <check id="37" parent="8">
-      <Predicate>registered IN (0, 1)</Predicate>
-    </check>
-    <column id="38" parent="9" name="id">
+    <column id="36" parent="9" name="id">
       <Position>1</Position>
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="39" parent="9" name="username">
+    <column id="37" parent="9" name="username">
       <Position>2</Position>
       <DataType>VARCHAR(64)|0s</DataType>
     </column>
-    <column id="40" parent="9" name="email">
+    <column id="38" parent="9" name="email">
       <Position>3</Position>
       <DataType>VARCHAR(120)|0s</DataType>
     </column>
-    <column id="41" parent="9" name="password_hash">
+    <column id="39" parent="9" name="password_hash">
       <Position>4</Position>
       <DataType>VARCHAR(128)|0s</DataType>
     </column>
-    <column id="42" parent="9" name="registered">
+    <column id="40" parent="9" name="registered">
       <Position>5</Position>
       <DataType>BOOLEAN|0s</DataType>
     </column>
-    <column id="43" parent="9" name="totalSongsPlayed">
+    <column id="41" parent="9" name="totalSongsPlayed">
       <Position>6</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="44" parent="9" name="totalCorrectGuesses">
+    <column id="42" parent="9" name="totalCorrectGuesses">
       <Position>7</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="45" parent="9" name="monthlySongsPlayed">
+    <column id="43" parent="9" name="monthlySongsPlayed">
       <Position>8</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="46" parent="9" name="monthlyCorrectGuesses">
+    <column id="44" parent="9" name="monthlyCorrectGuesses">
       <Position>9</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <index id="47" parent="9" name="ix_player_username">
+    <index id="45" parent="9" name="ix_player_username">
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <index id="48" parent="9" name="ix_player_email">
+    <index id="46" parent="9" name="ix_player_email">
       <ColNames>email</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="49" parent="9">
+    <key id="47" parent="9">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <check id="50" parent="9">
+    <check id="48" parent="9">
       <Predicate>registered IN (0, 1)</Predicate>
     </check>
-    <column id="51" parent="10" name="id">
+    <column id="49" parent="10" name="id">
       <Position>1</Position>
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="52" parent="10" name="playerID">
+    <column id="50" parent="10" name="playerID">
       <Position>2</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="53" parent="10" name="gameRoomID">
+    <column id="51" parent="10" name="gameRoomID">
       <Position>3</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="54" parent="10" name="points">
+    <column id="52" parent="10" name="points">
       <Position>4</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <key id="55" parent="10">
+    <key id="53" parent="10">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="56" parent="11" name="id">
+    <column id="54" parent="11" name="id">
       <Position>1</Position>
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="57" parent="11" name="trackID">
+    <column id="55" parent="11" name="trackID">
       <Position>2</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <key id="58" parent="11">
+    <key id="56" parent="11">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="59" parent="12" name="id">
+    <column id="57" parent="12" name="id">
       <Position>1</Position>
       <DataType>INTEGER|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="60" parent="12" name="gameID">
+    <column id="58" parent="12" name="gameID">
       <Position>2</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <column id="61" parent="12" name="position">
+    <column id="59" parent="12" name="position">
       <Position>3</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <key id="62" parent="12">
+    <key id="60" parent="12">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="63" parent="13" name="type">
+    <column id="61" parent="13" name="type">
       <Position>1</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="64" parent="13" name="name">
+    <column id="62" parent="13" name="name">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="65" parent="13" name="tbl_name">
+    <column id="63" parent="13" name="tbl_name">
       <Position>3</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="66" parent="13" name="rootpage">
+    <column id="64" parent="13" name="rootpage">
       <Position>4</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="67" parent="13" name="sql">
+    <column id="65" parent="13" name="sql">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>

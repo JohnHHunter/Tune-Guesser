@@ -21,10 +21,12 @@
                     {% if current_user.is_anonymous %}
                         <li><a class="nav" href="{{ url_for('login') }}">Login</a></li>
                         <li><a class="nav" href="{{ url_for('register') }}">Register</a></li>
+                        <li><a class="nav" href="{{ url_for("leaderboard") }}">Leaderboard</a></li>
                         <li><a class="nav">Guest</a></li>
                     {% else %}
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        <li><a class="nav" href="{{ url_for('home') }}">Home</a></li>
+                        <li><a class="nav" href="{{ url_for('logout') }}">Logout</a></li>
+                        <li><a class="nav" href="{{ url_for("leaderboard") }}">Leaderboard</a></li>
                     {% endif %}
                 </ul>
             </div>

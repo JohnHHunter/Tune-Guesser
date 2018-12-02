@@ -12,9 +12,9 @@ class LoginForm(FlaskForm):
 
 
 class RoomForm(FlaskForm):
-    name = StringField('Room Name')
-    catergory = PasswordField('Room Category')
-    private = BooleanField('Make room private ?')
+    name = StringField('Room Name', validators=[DataRequired()])
+    category = StringField('Room Category', validators=[DataRequired()])
+    private = BooleanField('Make Room Private ?')
     submit = SubmitField('Submit')
 
 
