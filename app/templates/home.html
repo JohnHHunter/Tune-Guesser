@@ -4,9 +4,16 @@
 {% block app_content %}
         <h1>Choose a Game</h1>
 
+        <h2>Join by Code</h2>
+        <div class="row">
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+
         {% for game in game_list %}
-            <!-- Need to get this link to work -->
-            <h2><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></h2>
+            <!-- Needs to add player to database -->
+            <h3><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></h3>
         {% endfor %}
 
 

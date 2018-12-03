@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RoomForm, RegistrationForm
+from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
 from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -58,8 +58,9 @@ def login():
 @app.route('/home')
 @login_required
 def home():
+    form = JoinByCodeForm()
     game_list = game_room.query.all()
-    return render_template('home.html', title='Home', game_list=game_list)
+    return render_template('home.html', title='Home', form=form, game_list=game_list)
 
 
 @app.route('/leaderboard', methods=['GET', 'POST'])

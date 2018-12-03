@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
-from app.models import player
+from app.models import player, game_room
 
 
 class LoginForm(FlaskForm):
@@ -16,6 +16,16 @@ class RoomForm(FlaskForm):
     category = StringField('Room Category', validators=[DataRequired()])
     private = BooleanField('Make Room Private ?')
     submit = SubmitField('Submit')
+
+
+class JoinByCodeForm(FlaskForm):
+    code = StringField('Code', validators=[DataRequired()])
+    submit = SubmitField('Join Room')
+
+    def validate_code(self, code):
+        room = game_room.query.filter_by(code=code.data).first()
+        if room is None:
+            raise ValidationError('Game is not found')
 
 
 class RegistrationForm(FlaskForm):
