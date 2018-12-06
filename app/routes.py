@@ -55,6 +55,31 @@ def login():
     return render_template('login.html', form=form, title='Sign In')
 
 
+@app.route('/guest', methods=['GET', 'POST'])
+def guest():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    numbers = random.randint(100, 99999999)
+    username = "Guest" + str(numbers)
+    taken = player.query.filter_by(username=username).first()
+    if taken:
+        while taken:
+            numbers = random.randint(100, 99999999)
+            username = "Guest" + numbers
+            taken = player.query.filter_by(username=username).first()
+    user = player(username=username, registered=False, totalSongsPlayed=0,
+                  totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0)
+    db.session.add(user)
+    db.session.commit()
+    flash('You have been logged in as a guest')
+    curr_user = player.query.filter_by(username=username).first()
+    login_user(curr_user, remember=False)
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('home')
+    return redirect(next_page)
+
+
 @app.route('/home')
 @login_required
 def home():

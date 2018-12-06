@@ -78,7 +78,7 @@ class song(db.Model):
 class song_to_game(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     gameID = db.Column(db.Integer)
-    songID = db.column(db.Integer)
+    songID = db.Column(db.Integer)
     position = db.Column(db.Integer)
 
     def __repr__(self):
