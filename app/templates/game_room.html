@@ -2,7 +2,42 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+
+    <script type="text/javascript">
+      $(function() {
+        var submit_form = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/_autocomplete', {
+        q: $('input[name="q"]').val(),
+      }, function(data) {
+        $('#result').text("Hey: "+data.result);
+      });
+        console.log($('input[name="q"]').val());
+      return false;
+    };
+
+    $('input[type=text]').bind('keyup', function(e) {
+        submit_form(e);
+    });
+
+  });
+    </script>
+
     <h1>{{ room.name }}</h1>
     <h2>Code - {{ room.code }}</h2>
+
+    <input type="text" >
+
+    <iframe
+            width="0"
+            height="0"
+            src="https://www.youtube.com/embed/xUNqsfFUwhY?autoplay=1"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+    </iframe>
 
 {% endblock %}

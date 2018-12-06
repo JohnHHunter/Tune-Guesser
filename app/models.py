@@ -69,7 +69,9 @@ class chat_message(db.Model):
 
 class song(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    trackID = db.Column(db.Integer)
+    artist = db.Column(db.String(300))
+    title = db.Column(db.String(300))
+    link = db.Column(db.String(300))
 
     def __repr__(self):
         return '<SongID: {}>'.format(self.trackID)

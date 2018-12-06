@@ -148,6 +148,10 @@ def reset_db():
         db.session.execute(table.delete())
     db.session.commit()
 
+    songs = [
+        song(id=1, link="yes")
+    ]
+
     players = [
         player(id=1, username='player0', email='player0@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=800, monthlySongsPlayed=500, monthlyCorrectGuesses=112),

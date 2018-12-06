@@ -13,10 +13,10 @@
 
         {% for game in game_list %}
             <!-- Needs to add player to database -->
-            <h3><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></h3>
+            <button><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></button>
         {% endfor %}
-
-
+        <br>
+    
         <a href="{{ url_for("index") }}">Home</a><br>
         <a href="{{ url_for("create_room") }}">Create Room</a><br>
 {% endblock %}
