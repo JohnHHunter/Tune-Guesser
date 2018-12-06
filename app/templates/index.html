@@ -2,6 +2,16 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-        <h1>Tune Guesser</h1>
-        <p>The Online Music Guessing Game</p>
+    <h1 class="text-center">Tune Guesser</h1>
+    <p class="text-center">The Online Music Guessing Game</p>
+
+    <a href="{{ url_for('login') }}">
+        <img class="text-center" src="/static/img/login.jpg" width="275">
+    </a>
+    <a href="{{ url_for('register') }}">
+        <img class="text-center" src="/static/img/register.jpg" width="275">
+    </a>
+    <a href="{{ url_for("guest") }}">
+        <img class="text-center" src="/static/img/guest.jpg" width="275">
+    </a>
 {% endblock %}
