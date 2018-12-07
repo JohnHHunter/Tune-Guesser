@@ -82,6 +82,7 @@ def guest():
 
 @app.route('/home')
 @login_required
+
 def home():
     form = JoinByCodeForm()
     game_list = game_room.query.all()
@@ -135,6 +136,10 @@ def create_room():
 @login_required
 def room_game(code):
     game = game_room.query.filter_by(code=code).first()
+    ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id,points= 0)
+
+    db.session.add(ptg)
+    db.session.commit()
     return render_template('game_room.html', title=code, room=game)
 
 
