@@ -2,14 +2,13 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-        <h1>Login</h1>
+        <h1 style="margin-top: 3rem;" >Login</h1>
         <div class="row">
             <div class="col-md-4">
                 {{ wtf.quick_form(form) }}
             </div>
         </div>
 
-    <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
-        <a href="{{ url_for("home") }}">Home</a><br>
-        <a href="{{ url_for("index") }}">Back</a>
+    <p style="margin-top: 1rem;"> New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+    <p><a href="{{ url_for("guest") }}">Or Log in as a Guest!</a></p>
 {% endblock %}

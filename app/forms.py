@@ -20,7 +20,7 @@ class RoomForm(FlaskForm):
 
 class JoinByCodeForm(FlaskForm):
     code = StringField('Code', validators=[DataRequired()])
-    submit = SubmitField('Join Room')
+    submit = SubmitField('Join Room By Code')
 
     def validate_code(self, code):
         room = game_room.query.filter_by(code=code.data).first()

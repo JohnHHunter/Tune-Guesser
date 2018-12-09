@@ -18,13 +18,15 @@ def logout():
 
 @app.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     return render_template('index.html', title='Home')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = player(username=form.username.data, email=form.email.data, registered=True, totalSongsPlayed=0,
@@ -82,9 +84,17 @@ def guest():
 
 @app.route('/home')
 @login_required
-
 def home():
     form = JoinByCodeForm()
+    if form.validate_on_submit():
+        room = game_room.query.filter_by(code=form.code.data).first()
+        if room is None:
+            flash("Room does not exist")
+            return render_template('join.html', form=form, title='Join Room')
+        db.session.add(current_user)
+        db.session.commit()
+        room.playerCount += 1
+        return redirect(url_for('room_game', code=room.code))
     game_list = game_room.query.all()
     return render_template('home.html', title='Home', form=form, game_list=game_list)
 
@@ -136,11 +146,16 @@ def create_room():
 @login_required
 def room_game(code):
     game = game_room.query.filter_by(code=code).first()
-    ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id,points= 0)
-
+    ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
     db.session.add(ptg)
     db.session.commit()
-    return render_template('game_room.html', title=code, room=game)
+    players_in_game = player_to_game.query.filter_by(gameRoomID=game.id).all()
+    player_list = []
+    for p in players_in_game:
+        player_to_add = player.query.filter_by(id=p.playerID).first()
+        if player_to_add not in player_list:
+            player_list.append(player_to_add)
+    return render_template('game_room.html', player_list=player_list, title=code, room=game)
 
 
 @app.route('/reset_db')

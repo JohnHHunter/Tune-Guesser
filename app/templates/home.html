@@ -2,21 +2,36 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-        <h1>Choose a Game</h1>
+    <h1 style="margin-top: 3rem;" >Choose a Game</h1>
 
-        <h2>Join by Code</h2>
-        <div class="row">
-            <div class="col-md-4">
-                {{ wtf.quick_form(form) }}
-            </div>
+    <div class="row" style="margin-bottom: 2rem">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
         </div>
+    </div>
 
-        {% for game in game_list %}
-            <!-- Needs to add player to database -->
-            <button><a href="{{ url_for('room_game', code=game.code) }}">{{ game.name }}</a></button>
-        {% endfor %}
-        <br>
-    
-        <a href="{{ url_for("index") }}">Home</a><br>
-        <a href="{{ url_for("create_room") }}">Create Room</a><br>
+    {% for game in game_list %}
+        <!-- Needs to add player to database -->
+        <img src="/static/img/room.jpg">
+        {{ game.name }}
+        <button type="button" class="btn btn-info">
+            <a href="{{ url_for('room_game', code=game.code) }}" style="color:white; text-decoration: none">
+                Join Room
+            </a>
+        </button>
+    {% endfor %}
+    <br>
+
+    <button type="button" class="btn btn-primary" style="margin-bottom: 2rem; margin-top: 2rem;">
+        <a style="color: white; text-decoration: none" >
+            <a href="{{ url_for('create_room') }}" style="color:white; text-decoration: none">
+                Create Room
+            </a>
+        </a>
+    </button>
+    <br>
+
+    <a href="{{ url_for("leaderboard") }}">Leaderboard</a>
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
 {% endblock %}

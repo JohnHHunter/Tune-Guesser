@@ -4,17 +4,25 @@
 {% block app_content %}
 
 
-    <h1>{{ room.name }}</h1>
+    <h1>Room - {{ room.name }}</h1>
     <h2>Code - {{ room.code }}</h2>
+
+    <h3>Players: </h3>
+        {% for player in player_list %}
+            <p>{{ player.username }}</p>
+        {% endfor %}
 
     <input type="text" >
 
-<iframe width="0"
-        height="0"
-        src="https://www.youtube.com/embed/K3Qzzggn--s?autoplay=1"
-        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
+    <iframe width="0"
+            height="0"
+            src="https://www.youtube.com/embed/K3Qzzggn--s?autoplay=1"
+            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+    </iframe>
 
-</iframe>
+    <br>
+
+    <a href="{{ url_for("home") }}">Leave</a><br>
 
 {% endblock %}
