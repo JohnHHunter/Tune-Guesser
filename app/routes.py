@@ -99,14 +99,18 @@ def home():
     return render_template('home.html', title='Home', form=form, game_list=game_list)
 
 
-@app.route('/leaderboard', methods=['GET', 'POST'])
-def leaderboard():  # trying to get one last thing to work
+@app.route('/leaderboard/all_time', methods=['GET', 'POST'])
+def leaderboard():
+    category = "Correct Guesses: All Time"
+    next_right = 'leaderboard_monthly_correct'
+    next_left = 'leaderboard_monthly_correct'
     players = player.query.all()
     list_size = 1
     top_correct_guesses = []
     players_on_leaderboard = []
     while list_size <= 10:
         top_score = 0
+        top_player = player.query.filter_by(username='Nobody').first()
         for person in players:
             if (person.totalCorrectGuesses > top_score) and (person not in players_on_leaderboard):
                 top_player = person
@@ -116,13 +120,41 @@ def leaderboard():  # trying to get one last thing to work
         top_correct_guesses.append(player_to_add)
         list_size += 1
 
-    return render_template('leaderboard.html', top_correct_guesses=top_correct_guesses, title='Home')
+    return render_template('leaderboard.html', next_left=next_left, next_right=next_right,
+                           top_correct_guesses=top_correct_guesses, category=category, title='Home')
+
+
+@app.route('/leaderboard/monthly', methods=['GET', 'POST'])
+def leaderboard_monthly_correct():
+    category = "Correct Guesses: This Month"
+    next_right = 'leaderboard'
+    next_left = 'leaderboard'
+    players = player.query.all()
+    list_size = 1
+    top_correct_guesses = []
+    players_on_leaderboard = []
+    while list_size <= 10:
+        top_score = 0
+        top_player = player.query.filter_by(username='Nobody').first()
+        for person in players:
+            if (person.monthlyCorrectGuesses > top_score) and (person not in players_on_leaderboard):
+                top_player = person
+                top_score = person.monthlyCorrectGuesses
+        players_on_leaderboard.append(top_player)
+        player_to_add = str(list_size) + ". " + top_player.username + " - " + str(top_player.monthlyCorrectGuesses)
+        top_correct_guesses.append(player_to_add)
+        list_size += 1
+
+    return render_template('leaderboard.html', next_left=next_left, next_right=next_right,
+                           top_correct_guesses=top_correct_guesses, category=category, title='Home')
 
 
 @app.route('/create_room', methods=['GET', 'POST'])
 @login_required
 def create_room():
     form = RoomForm()
+    form.category.choices = \
+        [('Joji', 'Joji'), ('Rex Orange County', 'Rex Orange County'), ('The Gunpoets', 'The Gunpoets')]
     if form.validate_on_submit():
         # Code generator
         chars = string.ascii_uppercase + string.digits
@@ -146,16 +178,29 @@ def create_room():
 @login_required
 def room_game(code):
     game = game_room.query.filter_by(code=code).first()
-    ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
-    db.session.add(ptg)
-    db.session.commit()
-    players_in_game = player_to_game.query.filter_by(gameRoomID=game.id).all()
     player_list = []
-    for p in players_in_game:
-        player_to_add = player.query.filter_by(id=p.playerID).first()
-        if player_to_add not in player_list:
-            player_list.append(player_to_add)
-    return render_template('game_room.html', player_list=player_list, title=code, room=game)
+    song_link = "https://www.youtube.com/embed/iqztd7uMvVI"
+    if game:
+        all_songs = song.query.filter_by(artist=game.category).all()
+        song_list = []
+        for s in all_songs:
+            song_list.append(s)
+        ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
+        db.session.add(ptg)
+        db.session.commit()
+        players_in_game = player_to_game.query.filter_by(gameRoomID=game.id).all()
+        for p in players_in_game:
+            player_to_add = player.query.filter_by(id=p.playerID).first()
+            if player_to_add not in player_list:
+                player_list.append(player_to_add)
+        curr_song = random.choice(song_list)
+        song_id = curr_song.link
+        song_id = song_id[32:]
+        youtube = "https://www.youtube.com/embed/"
+        link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
+        song_link = youtube + song_id + link_end
+
+    return render_template('game_room.html', player_list=player_list, title=code, song_link=song_link, room=game)
 
 
 @app.route('/reset_db')
@@ -169,34 +214,99 @@ def reset_db():
     db.session.commit()
 
     songs = [
-        song(id=1, link="yes")
+        # Joji
+        song(
+            id=1,
+            artist='Joji',
+            title="SLOW DANCING IN THE DARK",
+            link="https://www.youtube.com/watch?v=K3Qzzggn--s",
+            startTime=22),
+        song(
+            id=2,
+            artist='Joji',
+            title="TEST DRIVE",
+            link="https://www.youtube.com/watch?v=PEBS2jbZce4",
+            startTime=23),
+        song(
+            id=3,
+            artist='Joji',
+            title="XNXX",
+            link="https://www.youtube.com/watch?v=iBUnToeuY18",
+            startTime=22),
+
+        # Rex Orange County
+        song(
+            id=4,
+            artist='Rex Orange County',
+            title="Sunflower",
+            link="https://www.youtube.com/watch?v=Z9e7K6Hx_rY",
+            startTime=48),
+        song(
+            id=5,
+            artist='Rex Orange County',
+            title="Loving is Easy",
+            link="https://www.youtube.com/watch?v=39IU7ADaXmQ",
+            startTime=65),
+        song(
+            id=6,
+            artist='Rex Orange County',
+            title="BEST FRIEND ",
+            link="https://www.youtube.com/watch?v=OqBuXQLR4Y8",
+            startTime=30),
+
+        # The Gunpoets
+        song(
+            id=7,
+            artist='The Gunpoets',
+            title="Make You Happy",
+            link="https://www.youtube.com/watch?v=XigvD9PSknk",
+            startTime=14),
+        song(
+            id=8,
+            artist='The Gunpoets',
+            title="We Sing, We Dance",
+            link="https://www.youtube.com/watch?v=1Q5HMoh6CB0",
+            startTime=31),
+        song(
+            id=9,
+            artist='The Gunpoets',
+            title="8 Track Mind",
+            link="https://www.youtube.com/watch?v=32iLMq01qi8",
+            startTime=8),
     ]
 
     players = [
-        player(id=1, username='player0', email='player0@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=1, username='Nobody', email='nobody@email.com', registered=False, totalSongsPlayed=0,
+               totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0),
+        player(id=2, username='player0', email='player0@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=800, monthlySongsPlayed=500, monthlyCorrectGuesses=112),
-        player(id=2, username='player1', email='player1@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=3, username='player1', email='player1@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=900, monthlySongsPlayed=500, monthlyCorrectGuesses=23),
-        player(id=3, username='player2', email='player2@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=4, username='player2', email='player2@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=132, monthlySongsPlayed=500, monthlyCorrectGuesses=41),
-        player(id=4, username='player3', email='player3@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=5, username='player3', email='player3@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=487, monthlySongsPlayed=500, monthlyCorrectGuesses=62),
-        player(id=5, username='player4', email='player4@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=6, username='player4', email='player4@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=935, monthlySongsPlayed=500, monthlyCorrectGuesses=63),
-        player(id=6, username='player5', email='player5@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=7, username='player5', email='player5@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=234, monthlySongsPlayed=500, monthlyCorrectGuesses=213),
-        player(id=7, username='player6', email='player6@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=8, username='player6', email='player6@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=628, monthlySongsPlayed=500, monthlyCorrectGuesses=412),
-        player(id=8, username='player7', email='player7@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=9, username='player7', email='player7@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=117, monthlySongsPlayed=500, monthlyCorrectGuesses=123),
-        player(id=9, username='player8', email='player8@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=10, username='player8', email='player8@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=623, monthlySongsPlayed=500, monthlyCorrectGuesses=41),
-        player(id=10, username='player9', email='player9@email.com', registered=True, totalSongsPlayed=1000,
+        player(id=11, username='player9', email='player9@email.com', registered=True, totalSongsPlayed=1000,
                totalCorrectGuesses=623, monthlySongsPlayed=500, monthlyCorrectGuesses=349)
     ]
 
     for person in players:
         db.session.add(person)
+
+    for music in songs:
+        db.session.add(music)
+
+
     db.session.commit()
 
     return render_template('index.html', title='Home')

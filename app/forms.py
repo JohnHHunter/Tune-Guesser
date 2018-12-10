@@ -13,7 +13,7 @@ class LoginForm(FlaskForm):
 
 class RoomForm(FlaskForm):
     name = StringField('Room Name', validators=[DataRequired()])
-    category = StringField('Room Category', validators=[DataRequired()])
+    category = SelectField('Artist', coerce=str, validators=[DataRequired()])
     private = BooleanField('Make Room Private ?')
     submit = SubmitField('Submit')
 

@@ -2,7 +2,10 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1 style="margin-top: 3rem;" >Choose a Game</h1>
+
+    <h1 style="margin-top: 3rem; color: #A593E0; font-size: 80px; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px" >
+        Choose a Game
+    </h1>
 
     <div class="row" style="margin-bottom: 2rem">
         <div class="col-md-4">
@@ -11,7 +14,7 @@
     </div>
 
     {% for game in game_list %}
-        <!-- Needs to add player to database -->
+
         <img src="/static/img/room.jpg">
         {{ game.name }}
         <button type="button" class="btn btn-info">
@@ -31,7 +34,7 @@
     </button>
     <br>
 
-    <a href="{{ url_for("leaderboard") }}">Leaderboard</a>
-    <br>
-    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <a href="{{ url_for("leaderboard") }}" style="margin-right: 1rem"><img src="/static/img/leaderboard.jpg" width="50"></a>
+    <a href="{{ url_for('logout') }}"><img src="/static/img/logout.jpg" width="50"></a>
 {% endblock %}
