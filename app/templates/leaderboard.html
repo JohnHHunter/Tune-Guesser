@@ -2,12 +2,16 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-        <h1>Leaderboard</h1>
-        <h2>Top Correct Guesses of All Time</h2>
+        <h1 style="color: #A593E0; margin-top: 3rem;" class="text-center">Leaderboard</h1>
+        <h2 class="text-center">Top Correct Guesses of All Time</h2>
 
         {% for player in top_correct_guesses %}
-            <p>{{ player }}</p><br>
+            <p class="text-center">{{ player }}</p><br>
         {% endfor %}
 
-        <a href="{{ url_for("home") }}">Back</a>
+        <button type="button" class="btn btn-danger">
+            <a style="color: white; text-decoration: none" href="{{ url_for("home") }}">
+                Home
+            </a>
+        </button>
 {% endblock %}
