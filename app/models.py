@@ -38,6 +38,7 @@ class game_room(db.Model):
     isActive = db.Column(db.Boolean)
     private = db.Column(db.Boolean)
     code = db.Column(db.String(4))
+    timer = db.Column(db.Integer)
     created = db.Column(db.DateTime)
     updated = db.Column(db.DateTime)
 
@@ -72,6 +73,7 @@ class song(db.Model):
     artist = db.Column(db.String(300))
     title = db.Column(db.String(300))
     link = db.Column(db.String(300))
+    startTime = db.Column(db.Integer)
 
     def __repr__(self):
         return '<SongID: {}>'.format(self.trackID)
