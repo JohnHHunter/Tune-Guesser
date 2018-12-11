@@ -6,8 +6,12 @@
     <h1>Room - {{ room.name }}</h1>
     <h2>Code - {{ room.code }}</h2>
 
+    <h3 align="right">Previous Song: {{ song_link }}</h3>
+
     {% if current_user.id == hostID %}
-    <button onclick="playSong({{ room.code }})">Start</button>
+    <button type="button" class="btn btn-success"  onclick="gameLoop('{{ room.code }}')">
+        Start
+    </button>
     {% endif %}
 
     <h3>Players: </h3>
@@ -15,9 +19,14 @@
             <p>{{ player.username }}</p>
         {% endfor %}
 
-    <input type="text" >
 
-    <iframe width="0"
+    <div class="chat">
+        <input type="text" >
+        <button>Send</button>
+    </div>
+
+    <iframe id="song"
+            width="0"
             height="0"
             src="{{ song_link }}"
             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -26,6 +35,10 @@
 
     <br>
 
-    <a href="{{ url_for("home") }}">Leave</a><br>
+    <button type="button" class="btn btn-danger">
+        <a style="color: white; text-decoration: none" href="{{ url_for("home") }}">
+            Leave
+        </a>
+    </button>
 
 {% endblock %}

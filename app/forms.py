@@ -17,6 +17,11 @@ class RoomForm(FlaskForm):
     private = BooleanField('Make Room Private ?')
     submit = SubmitField('Submit')
 
+    def validate_name(self, name):
+        room = game_room.query.filter_by(name=name.data).first()
+        if room is not None:
+            raise ValidationError('Please use a different name')
+
 
 class JoinByCodeForm(FlaskForm):
     code = StringField('Code', validators=[DataRequired()])

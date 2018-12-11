@@ -39,6 +39,7 @@ class game_room(db.Model):
     private = db.Column(db.Boolean)
     code = db.Column(db.String(4))
     timer = db.Column(db.Integer)
+    current_song = db.Column(db.String(200))
     created = db.Column(db.DateTime)
     updated = db.Column(db.DateTime)
 

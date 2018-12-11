@@ -1,8 +1,15 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block scripts %}
-  <script src="{{url_for('.static', filename='js/game.js')}}"></script>
-  {{super()}}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="{{url_for('.static', filename='js/game.js')}}"></script>
+    <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root |tojson |safe }};</script>
+    {{super()}}
+{% endblock %}
+
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="src=/static/css/custom.css">
 {% endblock %}
 
 

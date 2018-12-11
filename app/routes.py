@@ -90,7 +90,7 @@ def home():
         room = game_room.query.filter_by(code=form.code.data).first()
         if room is None:
             flash("Room does not exist")
-            return render_template('join.html', form=form, title='Join Room')
+            return redirect(url_for('home'))
         db.session.add(current_user)
         db.session.commit()
         room.playerCount += 1
@@ -179,7 +179,7 @@ def create_room():
 def room_game(code):
     game = game_room.query.filter_by(code=code).first()
     player_list = []
-    song_link = "https://www.youtube.com/embed/iqztd7uMvVI"
+    song_link = ""
     if game:
         ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
         db.session.add(ptg)
@@ -189,23 +189,15 @@ def room_game(code):
             player_to_add = player.query.filter_by(id=p.playerID).first()
             if player_to_add not in player_list:
                 player_list.append(player_to_add)
-        all_songs = song.query.filter_by(artist=game.category).all()
-        song_list = []
-        for s in all_songs:
-            song_list.append(s)
-        curr_song = random.choice(song_list)
-        song_id = curr_song.link
-        song_id = song_id[32:]
-        youtube = "https://www.youtube.com/embed/"
-        link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
-        song_link = youtube + song_id + link_end
-        return render_template('game_room.html', player_list=player_list, title=code, song_link=song_link, room=game,
-                               current_user=current_user, hostID=game.hostID)
-    return render_template('game_room.html', player_list=player_list, title=code, song_link=song_link, room=game)
+        return render_template('game_room.html', player_list=player_list, title=code, room=game,
+                               current_user=current_user, hostID=game.hostID, song_link=song_link)
+    return render_template('game_room.html', player_list=player_list, title=code, room=game, song_link=song_link)
 
 
 @app.route('/_next_song')
-def next_song(code):
+def next_song():
+    code = request.args.get(key='code', default='a', type=string)
+    print(code)
     game = game_room.query.filter_by(code=code).first()
     all_songs = song.query.filter_by(artist=game.category).all()
     song_list = []
@@ -215,9 +207,10 @@ def next_song(code):
     song_id = curr_song.link
     song_id = song_id[32:]
     youtube = "https://www.youtube.com/embed/"
-    link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
+    link_end = "?start=" + str(curr_song.startTime + (30-game.timer)) + "&autoplay=1"
     song_link = youtube + song_id + link_end
-    return jsonify(song=song_link)
+    game.current_song = song_link
+    return jsonify(result=song_link)
 
 
 @app.route('/reset_db')
