@@ -1,5 +1,11 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block scripts %}
+  <script src="{{url_for('.static', filename='js/game.js')}}"></script>
+  {{super()}}
+{% endblock %}
+
+
 {% block title %}
     {% if title %} Tune Guesser - {{ title }} {% else %} Tune Guesser{% endif %}
 {% endblock %}

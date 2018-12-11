@@ -3,9 +3,12 @@
 
 {% block app_content %}
 
-
     <h1>Room - {{ room.name }}</h1>
     <h2>Code - {{ room.code }}</h2>
+
+    {% if current_user.id == hostID %}
+    <button onclick="playSong({{ room.code }})">Start</button>
+    {% endif %}
 
     <h3>Players: </h3>
         {% for player in player_list %}

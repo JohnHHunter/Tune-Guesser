@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, Flask, jsonify
 from app import app, db
 from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
 from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
@@ -181,10 +181,6 @@ def room_game(code):
     player_list = []
     song_link = "https://www.youtube.com/embed/iqztd7uMvVI"
     if game:
-        all_songs = song.query.filter_by(artist=game.category).all()
-        song_list = []
-        for s in all_songs:
-            song_list.append(s)
         ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
         db.session.add(ptg)
         db.session.commit()
@@ -193,14 +189,35 @@ def room_game(code):
             player_to_add = player.query.filter_by(id=p.playerID).first()
             if player_to_add not in player_list:
                 player_list.append(player_to_add)
+        all_songs = song.query.filter_by(artist=game.category).all()
+        song_list = []
+        for s in all_songs:
+            song_list.append(s)
         curr_song = random.choice(song_list)
         song_id = curr_song.link
         song_id = song_id[32:]
         youtube = "https://www.youtube.com/embed/"
         link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
         song_link = youtube + song_id + link_end
-
+        return render_template('game_room.html', player_list=player_list, title=code, song_link=song_link, room=game,
+                               current_user=current_user, hostID=game.hostID)
     return render_template('game_room.html', player_list=player_list, title=code, song_link=song_link, room=game)
+
+
+@app.route('/_next_song')
+def next_song(code):
+    game = game_room.query.filter_by(code=code).first()
+    all_songs = song.query.filter_by(artist=game.category).all()
+    song_list = []
+    for s in all_songs:
+        song_list.append(s)
+    curr_song = random.choice(song_list)
+    song_id = curr_song.link
+    song_id = song_id[32:]
+    youtube = "https://www.youtube.com/embed/"
+    link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
+    song_link = youtube + song_id + link_end
+    return jsonify(song=song_link)
 
 
 @app.route('/reset_db')
@@ -305,8 +322,5 @@ def reset_db():
 
     for music in songs:
         db.session.add(music)
-
-
     db.session.commit()
-
     return render_template('index.html', title='Home')
