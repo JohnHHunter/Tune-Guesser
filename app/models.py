@@ -59,7 +59,7 @@ class player_to_game(db.Model):
 
 class chat_message(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    playerID = db.column(db.Integer)
+    playerID = db.Column(db.Integer)
     gameRoomID = db.Column(db.Integer)
     message = db.Column(db.String(64))
     created = db.Column(db.DateTime)

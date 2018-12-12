@@ -6,7 +6,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 import string
 import random
-import json
 from datetime import datetime
 
 
@@ -198,7 +197,6 @@ def room_game(code):
 @app.route('/_next_song', methods=['GET', 'POST'])
 def next_song():
     code = request.args.get('code', "")
-    print(code)
     game = game_room.query.filter_by(code=code).first()
     if game:
         all_songs = song.query.filter_by(artist=game.category).all()
@@ -212,9 +210,28 @@ def next_song():
         link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
         song_link = youtube + song_id + link_end
         game.current_song = song_link
-        print(song_link)
+        game.current_song = curr_song.title
         return jsonify(result=song_link, song_name=curr_song.title)
     return jsonify(result="none")
+
+
+@app.route('/_chat_message', methods=['GET', 'POST'])
+def chat_message():
+    message = request.args.get('msg', "")
+    code = request.args.get('code', "")
+    game = game_room.query.filter_by(code=code).first()
+    if message == game.current_song:
+        new_message = chat_message(playerID=current_user.id, message=message,
+                                   created=datetime.utcnow(), correctAnswer=True)
+        db.session.add(new_message)
+        db.session.commit()
+        return True
+    else:
+        new_message = chat_message(playerID=current_user.id, message=message,
+                                   created=datetime.utcnow(), correctAnswer=False)
+        db.session.add(new_message)
+        db.session.commit()
+        return False
 
 
 @app.route('/reset_db')

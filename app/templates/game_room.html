@@ -3,16 +3,20 @@
 
 {% block app_content %}
 
-    <h1>Room - {{ room.name }}</h1>
+    <h1 style="margin-top: 3rem; color: #A593E0; font-size: 60px; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px">
+        Room - {{ room.name }}
+    </h1>
     <h2>Code - {{ room.code }}</h2>
 
-    <h3 id="result" align="right">Previous Song: ?</h3>
+    <h3 id="previous">Previous Song: ?</h3>
 
     {% if current_user.id == hostID %}
     <button id="start" type="button" class="btn btn-success"  onclick="game('{{ room.code }}')">
         Start
     </button>
     {% endif %}
+
+    <h4 id="correct"></h4>
 
     <h3>Players: </h3>
         {% for player in player_list %}
@@ -21,8 +25,8 @@
 
 
     <div class="chat">
-        <input type="text" >
-        <button>Send</button>
+        <input type="text" name="chat">
+        <button onclick="chat('{{ room.code }}')">Send</button>
     </div>
 
     <iframe id="song"

@@ -1,9 +1,8 @@
 var previousSong = "?";
 
 function newSong(e){
-    console.log("New Song");
-    $('#result').text("Previous Song: "+ previousSong);
-    //1. Choose a song
+    $('#previous').text("Previous Song: "+ previousSong);
+    $('#correct').text("");
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
             code: e
         }, function(data) {
@@ -13,5 +12,18 @@ function newSong(e){
 }
 
 function game(e){
+    document.getElementById('start').style.visibility = 'hidden';
+    newSong(e);
     setInterval(newSong, 30000, e);
+}
+
+function chat(e){
+    $.getJSON($SCRIPT_ROOT + '/_chat_message', {
+        msg: $('input[name="chat"]').val(),
+        code: e
+      }, function(data) {
+        if(data.result){
+            $('#correct').text("You guessed the song correctly");
+        }
+      });
 }
