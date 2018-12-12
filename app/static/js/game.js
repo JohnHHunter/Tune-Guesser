@@ -1,21 +1,17 @@
+var previousSong = "?";
+
 function newSong(e){
+    console.log("New Song");
+    $('#result').text("Previous Song: "+ previousSong);
     //1. Choose a song
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
             code: e
         }, function(data) {
-            //2. Change the source to the current song
+            previousSong = data.song_name;
             document.getElementById("song").src=data.result;
       });
 }
 
-function gameLoop(e){
-    newSong(e);
-        while(true){
-            //3. Countdown to next song
-            setTimeout(newSong, 30000)
-        }
+function game(e){
+    setInterval(newSong, 30000, e);
 }
-
-
-
-

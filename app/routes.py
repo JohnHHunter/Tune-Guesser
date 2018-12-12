@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 import string
 import random
+import json
 from datetime import datetime
 
 
@@ -194,23 +195,26 @@ def room_game(code):
     return render_template('game_room.html', player_list=player_list, title=code, room=game, song_link=song_link)
 
 
-@app.route('/_next_song')
+@app.route('/_next_song', methods=['GET', 'POST'])
 def next_song():
-    code = request.args.get(key='code', default='a', type=string)
+    code = request.args.get('code', "")
     print(code)
     game = game_room.query.filter_by(code=code).first()
-    all_songs = song.query.filter_by(artist=game.category).all()
-    song_list = []
-    for s in all_songs:
-        song_list.append(s)
-    curr_song = random.choice(song_list)
-    song_id = curr_song.link
-    song_id = song_id[32:]
-    youtube = "https://www.youtube.com/embed/"
-    link_end = "?start=" + str(curr_song.startTime + (30-game.timer)) + "&autoplay=1"
-    song_link = youtube + song_id + link_end
-    game.current_song = song_link
-    return jsonify(result=song_link)
+    if game:
+        all_songs = song.query.filter_by(artist=game.category).all()
+        song_list = []
+        for s in all_songs:
+            song_list.append(s)
+        curr_song = random.choice(song_list)
+        song_id = curr_song.link
+        song_id = song_id[32:]
+        youtube = "https://www.youtube.com/embed/"
+        link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
+        song_link = youtube + song_id + link_end
+        game.current_song = song_link
+        print(song_link)
+        return jsonify(result=song_link, song_name=curr_song.title)
+    return jsonify(result="none")
 
 
 @app.route('/reset_db')

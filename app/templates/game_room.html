@@ -6,10 +6,10 @@
     <h1>Room - {{ room.name }}</h1>
     <h2>Code - {{ room.code }}</h2>
 
-    <h3 align="right">Previous Song: {{ song_link }}</h3>
+    <h3 id="result" align="right">Previous Song: ?</h3>
 
     {% if current_user.id == hostID %}
-    <button type="button" class="btn btn-success"  onclick="gameLoop('{{ room.code }}')">
+    <button id="start" type="button" class="btn btn-success"  onclick="game('{{ room.code }}')">
         Start
     </button>
     {% endif %}
