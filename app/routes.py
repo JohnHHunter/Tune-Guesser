@@ -230,6 +230,7 @@ def handle_message(msg):
                     whole_message = sender + " has guessed the song!"
                     send(whole_message, broadcast=True)
                     current_user.hasGuessed = True
+                    current_user.pointsInRoom += 10
                     db.session.commit()
             else:
                 whole_message = sender + ": " + msg
