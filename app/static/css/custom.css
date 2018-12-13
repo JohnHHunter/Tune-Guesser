@@ -211,10 +211,9 @@ body{
     border-radius: 20px;
     font-size: 28px;
     border: none;
-    position: absolute;
-    left: 50%;
-    margin-left: -100px;
-    margin-bottom: 2rem;
+    position: fixed;
+    left: 50px;
+    transform: translateY(200px);
 }
 
 .create-room-button:hover{
@@ -229,7 +228,7 @@ body{
 
 .explanation{
     text-align: center;
-    margin-top: 6rem;
+    margin-top: 1rem;
 }
 
 .room-link:hover{
@@ -249,9 +248,10 @@ body{
 }
 
 .create-room-title{
-    color: #A492DD;
-    margin-bottom: 1rem;
+    font-size: 100px;
     margin-top: 1rem;
+    text-align: center;
+    color: #8D23FF;
 }
 
 .leaderboard-back-button{
@@ -290,4 +290,9 @@ body{
 
 .leaderboard-sub-category{
     font-size: 24px;
+}
+
+.create-room-form{
+    position: fixed;
+    left: 50px;
 }

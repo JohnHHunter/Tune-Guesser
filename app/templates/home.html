@@ -2,15 +2,16 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1 class="choose-a-game">
-        Choose a Game
-    </h1>
+    <h1 class="create-room-title">Tune Guesser</h1>
 
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+    <div class="create-room-form">
+        <div class="row">
+            <div class="col-md-8">
+                {{ wtf.quick_form(form) }}
+            </div>
         </div>
     </div>
+
 
     <button onclick="location.href='{{ url_for('create_room') }}'" class="create-room-button" type="button">
         Create Room
