@@ -2,7 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1 style="color: #A593E0; margin-top: 2rem; font-size: 80px; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px" class="text-center">
+    <h1 class="text-center leaderboard-title">
         Leaderboard
     </h1>
 
@@ -14,8 +14,8 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <h2 class="text-center">Top Correct Guesses</h2>
-                <h2 class="text-center" style="font-size: 24px;"> {{ category }}</h2>
+                <h2 class="text-center leaderboard-category">Top Correct Guesses</h2>
+                <h2 class="text-center leaderboard-sub-category"> {{ category }}</h2>
             </div>
             <div class="col-md-4">
                <a href="{{ url_for(next_right) }}">
@@ -25,13 +25,11 @@
         </div>
     </div>
 
-    {% for player in top_correct_guesses %}
-        <p class="text-center">{{ player }}</p><br>
-    {% endfor %}
+    <div>
+        {% for player in top_correct_guesses %}
+            <p class="text-center leaderboard-result">{{ player }}</p>
+        {% endfor %}
+    </div>
 
-    <button type="button" class="btn btn-danger">
-        <a style="color: white; text-decoration: none" href="{{ url_for("home") }}">
-            Home
-        </a>
-    </button>
+    <button onclick="location.href='{{ url_for('home') }}'" type="button" class="leaderboard-back-button">Back</button>
 {% endblock %}

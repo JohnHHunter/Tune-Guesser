@@ -2,26 +2,12 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <img style="margin-top: 3rem; margin-bottom: 3rem" class="center-block"  src="/static/img/header.png" width="1200">
+    <h1 class="title">Tune Guesser</h1>
 
-    <div style="margin-left: 20%;">
-        <div class="row">
-            <div class = "col-5">
-                <a href="{{ url_for('login') }}">
-                    <img src="/static/img/login.jpg" width="275">
-                </a>
-            </div>
-            <div class = "col-5">
-                <a href="{{ url_for('register') }}">
-                    <img src="/static/img/register.jpg" width="275">
-                </a>
-            </div>
-        </div>
-    </div>
+    <h2 class="sub-title">The Online Music Guessing Game</h2>
 
-    <a href="{{ url_for("guest") }}" >
-        <img style="margin-top: 3rem; margin-left: 38%;" class="center-block" src="/static/img/guest.jpg" width="275">
-    </a>
-
+    <button class="front-button login-button" onclick="location.href='{{ url_for('login') }}'">Login</button>
+    <button class="front-button signup-button" onclick="location.href='{{ url_for('register') }}'">Sign Up</button><br>
+    <button class="front-button guest-button" onclick="location.href='{{ url_for('guest') }}'">Guest</button>
 
 {% endblock %}

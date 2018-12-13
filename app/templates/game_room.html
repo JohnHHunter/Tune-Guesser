@@ -4,9 +4,8 @@
 {% block app_content %}
 
     <h1 style="margin-top: 3rem; color: #A593E0; font-size: 60px; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px">
-        Room - {{ room.name }}
+        Room - {{ room.code }}
     </h1>
-    <h2>Code - {{ room.code }}</h2>
 
     <h3 id="previous">Previous Song: ?</h3>
 
@@ -24,9 +23,13 @@
         {% endfor %}
 
 
-    <div class="chat">
-        <input type="text" name="chat">
-        <button onclick="chat('{{ room.code }}')">Send</button>
+    <div class="chat-box">
+        <ul class="chat-messages" id="messages"></ul>
+        <div class="chat-input">
+            <input class="msg-input" type="text" id="myMessage">
+            <button id="sendButton">Send</button>
+        </div>
+
     </div>
 
     <iframe id="song"
@@ -39,7 +42,7 @@
 
     <br>
 
-    <button type="button" class="btn btn-danger">
+    <button type="button" class="btn btn-danger leave-room">
         <a style="color: white; text-decoration: none" href="{{ url_for("home") }}">
             Leave
         </a>

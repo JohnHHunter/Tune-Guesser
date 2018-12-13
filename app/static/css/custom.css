@@ -1,0 +1,293 @@
+/**
+https://coolors.co/222222-140123-a492dd-8d23ff-ffffff
+
+ */
+
+body{
+    background-color: #222;
+    margin: 0;
+    padding: 0;
+    font-size: 1.6em;
+    color: white;
+}
+
+.title{
+    font-size: 150px;
+    margin-top: 4rem;
+    text-align: center;
+    color: #8D23FF;
+}
+
+.sub-title{
+    font-size: 70px;
+    text-align: center;
+    color: #A492DD;
+}
+
+.front-button{
+    width: 350px;
+    height: 120px;
+    transform: translateY(50px);
+    background-color: #FFFFFF;
+    border-radius: 100px;
+    font-size: 40px;
+    border: none;
+}
+
+.front-button:hover{
+    background-color: #B8AFD6;
+    cursor: pointer;
+}
+
+.login-button{
+    position: absolute;
+    left: 50%;
+    margin-left: -400px;
+}
+
+.signup-button{
+    position: absolute;
+    left: 50%;
+    margin-left: 50px;
+}
+
+.guest-button{
+    position: absolute;
+    left: 50%;
+    margin-left: -175px;
+    transform: translateY(150px);
+}
+
+.login-title{
+    color: #A492DD;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.login-box{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 2rem;
+    background-color: #140123;
+    width: 500px;
+    max-width: 500px;
+    height:600px;
+    max-height:600px;
+    border: #8D23FF solid 10px;
+}
+
+.signup-title{
+    color: #A492DD;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.signup-box{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 2rem;
+    background-color: #140123;
+    width: 500px;
+    max-width: 500px;
+    height:720px;
+    max-height:720px;
+    border: #8D23FF solid 10px;
+}
+
+.chat-box{
+    width: 1000px;
+    max-width: 1000px;
+    height:250px;
+    max-height:250px;
+    display: inline-block;;
+    background-color: #140123;
+    padding-top: 10px;
+    border: #8D23FF solid 10px;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 50%;
+    margin-left: -500px;
+    bottom: 20%;
+}
+
+.chat-messages{
+    color: #A492DD;
+    list-style-type: none;
+    text-align: left;
+    margin-left: -20px;
+}
+
+.msg-input{
+    width: 800px;
+    padding-left: 10px;
+    color: #FFFFFF;
+    background-color: #333333;
+    border: none;
+}
+
+.chat-input{
+    left: 5px;
+    bottom: 3px;
+    position: absolute;
+}
+
+.choose-a-game{
+    color: #A492DD;
+    margin-top: 2rem;
+}
+
+.game-room{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding-top: 25px;
+    width: 250px;
+    max-width: 250px;
+    height: 250px;
+    max-height: 250px;
+    background-color: #420372;
+    display: inline-block;
+    border: #8D23FF solid 10px;
+}
+
+.game-room:hover{
+    background-color: #140123;
+    border: #5A16A3 solid 10px;
+    text-decoration: none;
+}
+
+.game-code{
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 0;
+}
+
+.game-category{
+    color: #A492DD;
+    text-align: center;
+    text-decoration: none;
+    font-size: 24px;
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.game-player-count{
+    color: #A492DD;
+    text-align: center;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.game-buttons{
+    right: 50px;
+    width: 200px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border-radius: 100px;
+    font-size: 28px;
+    border: none;
+    position: fixed;
+}
+
+.game-buttons:hover{
+    background-color: #B8AFD6;
+    cursor: pointer;
+}
+
+.leaderboard-button{
+    bottom: 130px;
+}
+
+.logout-button{
+    bottom: 30px;
+}
+
+.create-room-button{
+    width: 200px;
+    height: 80px;
+    background-color: #8D23FF;
+    color: white;
+    border-radius: 20px;
+    font-size: 28px;
+    border: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    margin-bottom: 2rem;
+}
+
+.create-room-button:hover{
+    background-color: #270244;
+    color: #999999;
+    cursor: pointer;
+}
+
+.room-lists{
+    margin-top: 1rem;
+}
+
+.explanation{
+    text-align: center;
+    margin-top: 6rem;
+}
+
+.room-link:hover{
+    text-decoration: none;
+}
+
+.create-room-box{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 2rem;
+    background-color: #140123;
+    width: 500px;
+    max-width: 500px;
+    height: 500px;
+    max-height: 500px;
+    border: #8D23FF solid 10px;
+}
+
+.create-room-title{
+    color: #A492DD;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.leaderboard-back-button{
+    width: 160px;
+    height: 60px;
+    background-color: red;
+    color: white;
+    border-radius: 20px;
+    font-size: 28px;
+    border: none;
+    position: fixed;
+    bottom: 3rem;
+    left: 4rem;
+}
+
+.leaderboard-back-button:hover {
+    background-color: darkred;
+    color: #999999;
+    cursor: pointer;
+}
+
+.leaderboard-result{
+    margin-top: 10px;
+}
+
+.leaderboard-title{
+    color: #A492DD;
+    font-size: 70px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.leaderboard-category{
+
+}
+
+.leaderboard-sub-category{
+    font-size: 24px;
+}

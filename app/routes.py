@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request, Flask, jsonify
-from app import app, db
+from app import app, db, socketio
 from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
 from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from flask_socketio import  SocketIO, send
 import string
 import random
 from datetime import datetime
@@ -165,7 +166,7 @@ def create_room():
             rooms_with_code = game_room.query.filter_by(code=code).all()
             if not rooms_with_code:
                 break
-        cr = game_room(name=form.name.data, hostID=current_user.id, playerCount=1, category=form.category.data,
+        cr = game_room(hostID=current_user.id, playerCount=1, category=form.category.data,
                        isActive=True, code=code, created=datetime.utcnow(), updated=datetime.utcnow(),
                        private=form.private.data)
         db.session.add(cr)
@@ -215,23 +216,11 @@ def next_song():
     return jsonify(result="none")
 
 
-@app.route('/_chat_message', methods=['GET', 'POST'])
-def chat_message():
-    message = request.args.get('msg', "")
-    code = request.args.get('code', "")
-    game = game_room.query.filter_by(code=code).first()
-    if message == game.current_song:
-        new_message = chat_message(playerID=current_user.id, message=message,
-                                   created=datetime.utcnow(), correctAnswer=True)
-        db.session.add(new_message)
-        db.session.commit()
-        return True
-    else:
-        new_message = chat_message(playerID=current_user.id, message=message,
-                                   created=datetime.utcnow(), correctAnswer=False)
-        db.session.add(new_message)
-        db.session.commit()
-        return False
+# Chat
+@socketio.on('message')
+def handle_message(msg):
+    print('Message: ' + msg)
+    send(msg, broadcast=True)
 
 
 @app.route('/reset_db')

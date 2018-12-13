@@ -2,39 +2,34 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-
-    <h1 style="margin-top: 3rem; color: #A593E0; font-size: 80px; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px" >
+    <h1 class="choose-a-game">
         Choose a Game
     </h1>
 
-    <div class="row" style="margin-bottom: 2rem">
+    <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
         </div>
     </div>
 
-    {% for game in game_list %}
-
-        <img src="/static/img/room.jpg">
-        {{ game.name }}
-        <button type="button" class="btn btn-info">
-            <a href="{{ url_for('room_game', code=game.code) }}" style="color:white; text-decoration: none">
-                Join Room
-            </a>
-        </button>
-    {% endfor %}
-    <br>
-
-    <button type="button" class="btn btn-primary" style="margin-bottom: 2rem; margin-top: 2rem;">
-        <a style="color: white; text-decoration: none">
-            <a href="{{ url_for('create_room') }}" style="color:white; text-decoration: none">
-                Create Room
-            </a>
-        </a>
+    <button onclick="location.href='{{ url_for('create_room') }}'" class="create-room-button" type="button">
+        Create Room
     </button>
+
+    <h3 class="explanation">Select a room below to join, or create your own room</h3>
+
+    <div class="room-lists">
+        {% for game in game_list %}
+            <a class="room-link" href="{{ url_for('room_game', code=game.code) }}">
+                <div class="game-room">
+                    <p class="game-code">{{ game.code }}</p>
+                    <p class="game-category">{{ game.category }}</p>
+                    <p class="game-player-count">{{ game.playerCount }}/8 Players</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
     <br>
-
-
-    <a href="{{ url_for("leaderboard") }}" style="margin-right: 1rem"><img src="/static/img/leaderboard.jpg" width="50"></a>
-    <a href="{{ url_for('logout') }}"><img src="/static/img/logout.jpg" width="50"></a>
+    <button onclick="location.href='{{ url_for('leaderboard') }}'" class="leaderboard-button game-buttons">Leaderboard</button>
+    <button onclick="location.href='{{ url_for('logout') }}'" class="logout-button game-buttons">Logout</button>
 {% endblock %}

@@ -8,19 +8,13 @@ class LoginForm(FlaskForm):
     username = StringField('Username')
     password = PasswordField('Password')
     remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Login')
 
 
 class RoomForm(FlaskForm):
-    name = StringField('Room Name', validators=[DataRequired()])
     category = SelectField('Artist', coerce=str, validators=[DataRequired()])
-    private = BooleanField('Make Room Private ?')
+    private = BooleanField('Make Room Private?')
     submit = SubmitField('Submit')
-
-    def validate_name(self, name):
-        room = game_room.query.filter_by(name=name.data).first()
-        if room is not None:
-            raise ValidationError('Please use a different name')
 
 
 class JoinByCodeForm(FlaskForm):

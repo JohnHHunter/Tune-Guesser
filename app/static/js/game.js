@@ -17,13 +17,30 @@ function game(e){
     setInterval(newSong, 30000, e);
 }
 
-function chat(e){
-    $.getJSON($SCRIPT_ROOT + '/_chat_message', {
-        msg: $('input[name="chat"]').val(),
-        code: e
-      }, function(data) {
-        if(data.result){
-            $('#correct').text("You guessed the song correctly");
-        }
-      });
-}
+$(document).ready(function () {
+    function sendMessage(){
+        socket.send($('#myMessage').val());
+        $('#myMessage').val('');
+    }
+    var socket = io.connect('http://127.0.0.1:5000');
+
+    socket.on('connect', function(){
+        socket.send('User has connected!');
+    });
+
+    socket.on('message', function (msg) {
+       $("#messages").append('<li>' + msg +'</li>')
+    });
+
+    $('#sendButton').on('click', sendMessage());
+
+   $(document).keypress(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if(keycode == '13'){
+		sendMessage();
+	}
+
+});
+
+
+});
