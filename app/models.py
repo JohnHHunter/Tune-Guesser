@@ -18,6 +18,9 @@ class player(UserMixin, db.Model):
     totalCorrectGuesses = db.Column(db.Integer)
     monthlySongsPlayed = db.Column(db.Integer)
     monthlyCorrectGuesses = db.Column(db.Integer)
+    roomID = db.Column(db.Integer)
+    hasGuessed = db.Column(db.Boolean)
+    pointsInRoom = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User: {}>'.format(self.username)
@@ -44,16 +47,6 @@ class game_room(db.Model):
 
     def __repr__(self):
         return '<Room: {}>'.format(self.code)
-
-
-class player_to_game(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    playerID = db.Column(db.Integer)
-    gameRoomID = db.Column(db.Integer)
-    points = db.Column(db.Integer)
-
-    def __repr__(self):
-        return '<PlayerToGame: {}>'.format(self.points)
 
 
 class chat_message(db.Model):

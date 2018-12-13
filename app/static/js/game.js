@@ -22,17 +22,20 @@ $(document).ready(function () {
         socket.send($('#myMessage').val());
         $('#myMessage').val('');
     }
+
     var socket = io.connect('http://127.0.0.1:5000');
 
     socket.on('connect', function(){
-        socket.send('User has connected!');
     });
 
     socket.on('message', function (msg) {
        $("#messages").append('<li>' + msg +'</li>')
     });
 
-    $('#sendButton').on('click', sendMessage());
+    $('#sendButton').on('click', function (){
+        socket.send($('#myMessage').val());
+        $('#myMessage').val('');
+    });
 
    $(document).keypress(function(event){
 	var keycode = (event.keyCode ? event.keyCode : event.which);

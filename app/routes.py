@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request, Flask, jsonify
 from app import app, db, socketio
 from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
-from app.models import player, player_to_game, game_room, song, song_to_game, chat_message
+from app.models import player, game_room, song, song_to_game, chat_message
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from flask_socketio import  SocketIO, send
+from flask_socketio import SocketIO, send
 import string
 import random
 from datetime import datetime
@@ -31,7 +31,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = player(username=form.username.data, email=form.email.data, registered=True, totalSongsPlayed=0,
-                      totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0)
+                      totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0, roomID=0, pointsInRoom=0)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -167,7 +167,7 @@ def create_room():
             if not rooms_with_code:
                 break
         cr = game_room(hostID=current_user.id, playerCount=1, category=form.category.data,
-                       isActive=True, code=code, created=datetime.utcnow(), updated=datetime.utcnow(),
+                       isActive=False, code=code, created=datetime.utcnow(), updated=datetime.utcnow(),
                        private=form.private.data)
         db.session.add(cr)
         db.session.commit()
@@ -182,14 +182,13 @@ def room_game(code):
     player_list = []
     song_link = ""
     if game:
-        ptg = player_to_game(playerID=current_user.id, gameRoomID=game.id, points=0)
-        db.session.add(ptg)
+        current_user.roomID = game.id
+        current_user.pointsInRoom = 0
+        current_user.hasGuessed = False
+        players_in_game = player.query.filter_by(roomID=game.id).all()
         db.session.commit()
-        players_in_game = player_to_game.query.filter_by(gameRoomID=game.id).all()
         for p in players_in_game:
-            player_to_add = player.query.filter_by(id=p.playerID).first()
-            if player_to_add not in player_list:
-                player_list.append(player_to_add)
+            player_list.append(p)
         return render_template('game_room.html', player_list=player_list, title=code, room=game,
                                current_user=current_user, hostID=game.hostID, song_link=song_link)
     return render_template('game_room.html', player_list=player_list, title=code, room=game, song_link=song_link)
@@ -199,7 +198,9 @@ def room_game(code):
 def next_song():
     code = request.args.get('code', "")
     game = game_room.query.filter_by(code=code).first()
+    current_user.hasGuessed = False
     if game:
+        game.isActive = True
         all_songs = song.query.filter_by(artist=game.category).all()
         song_list = []
         for s in all_songs:
@@ -212,6 +213,7 @@ def next_song():
         song_link = youtube + song_id + link_end
         game.current_song = song_link
         game.current_song = curr_song.title
+        db.session.commit()
         return jsonify(result=song_link, song_name=curr_song.title)
     return jsonify(result="none")
 
@@ -219,8 +221,19 @@ def next_song():
 # Chat
 @socketio.on('message')
 def handle_message(msg):
-    print('Message: ' + msg)
-    send(msg, broadcast=True)
+    if current_user.is_authenticated:
+        sender = current_user.username
+        current_room = game_room.query.filter_by(id=current_user.roomID).first()
+        if current_room.isActive:  # if game has started
+            if msg.lower() == current_room.current_song.lower():  # check to see if message is correct answer
+                if not current_user.hasGuessed:
+                    whole_message = sender + " has guessed the song!"
+                    send(whole_message, broadcast=True)
+                    current_user.hasGuessed = True
+                    db.session.commit()
+            else:
+                whole_message = sender + ": " + msg
+                send(whole_message, broadcast=True)
 
 
 @app.route('/reset_db')
