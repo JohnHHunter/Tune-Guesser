@@ -7,17 +7,24 @@
         Room - {{ room.code }}
     </h1>
 
-    <h3 id="previous">Previous Song: ?</h3>
+    <div class="previous-song">
+        <h3> Previous Song: </h3>
+        <h3 class="previous-song-text" id="previous">?</h3>
+    </div>
+
 
     {% if current_user.id == hostID %}
-    <button id="start" type="button" class="game-room-start"  onclick="game('{{ room.code }}')">Start</button>
+    <button id="start" type="button" class="game-room-start"  onclick="game('{{ room.code }}')">Start Game</button>
     {% endif %}
 
     <h4 id="correct"></h4>
 
     <h3>Players: </h3>
         {% for player in player_list %}
-            <p>{{ player.username }}: {{ player.pointsInRoom }}</p>
+            <div class="player-background">
+                <img src="{{url_for('.static', filename='img/default.jpg')}}" width="50" height="50">
+                {{ player.username }}: {{ player.pointsInRoom }}
+            </div>
         {% endfor %}
 
 
@@ -35,6 +42,7 @@
             height="0"
             src="{{ song_link }}"
             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            class="music-player"
             allowfullscreen>
     </iframe>
 

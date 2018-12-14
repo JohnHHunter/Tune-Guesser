@@ -4,6 +4,14 @@
 {% block app_content %}
     <h1 class="create-room-title">Tune Guesser</h1>
 
+    <img
+            class="user-display-img"
+            src="{{url_for('.static', filename='img/default.jpg')}}"
+            width="75"
+            height="75"
+    >
+    <p class="user-display">{{ current_user.username }}</p>
+
     <div class="create-room-form">
         <div class="row">
             <div class="col-md-8">

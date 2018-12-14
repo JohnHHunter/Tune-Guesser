@@ -8,6 +8,7 @@ body{
     margin: 0;
     padding: 0;
     color: white;
+    height: 100vh;
 }
 
 .title{
@@ -54,7 +55,7 @@ body{
     position: absolute;
     left: 50%;
     margin-left: -175px;
-    transform: translateY(150px);
+    transform: translateY(180px);
 }
 
 .login-title{
@@ -66,7 +67,7 @@ body{
 .login-box{
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 2rem;
+    margin-top: 6rem;
     background-color: #140123;
     width: 500px;
     max-width: 500px;
@@ -84,18 +85,18 @@ body{
 .signup-box{
     padding-left: 20px;
     padding-right: 20px;
-    margin-top: 2rem;
+    margin-top: 5rem;
     background-color: #140123;
     width: 500px;
     max-width: 500px;
-    height:720px;
-    max-height:720px;
+    height: 620px;
+    max-height: 620px;
     border: #8D23FF solid 10px;
 }
 
 .chat-box{
-    width: 1000px;
-    max-width: 1000px;
+    width: 950px;
+    max-width: 950px;
     height:300px;
     max-height:300px;
     display: inline-block;;
@@ -104,8 +105,7 @@ body{
     border: #8D23FF solid 10px;
     margin-bottom: 20px;
     position: absolute;
-    left: 50%;
-    margin-left: -500px;
+    right: 50px;
     bottom: 40px;
 }
 
@@ -213,7 +213,7 @@ body{
     border: none;
     position: fixed;
     left: 50px;
-    transform: translateY(200px);
+    transform: translateY(300px);
 }
 
 .create-room-button:hover{
@@ -252,14 +252,14 @@ body{
     margin-top: 1rem;
     margin-bottom: 2rem;
     color: #8D23FF;
+    text-align: center;
 }
 
 .leaderboard-back-button{
-    width: 160px;
-    height: 60px;
-    background-color: red;
-    color: white;
-    border-radius: 20px;
+    width: 200px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border-radius: 100px;
     font-size: 28px;
     border: none;
     position: fixed;
@@ -268,8 +268,7 @@ body{
 }
 
 .leaderboard-back-button:hover {
-    background-color: darkred;
-    color: #999999;
+    background-color: #B8AFD6;
     cursor: pointer;
 }
 
@@ -285,14 +284,104 @@ body{
 }
 
 .leaderboard-category{
-
+    color: #2365FF;
 }
 
 .leaderboard-sub-category{
     font-size: 24px;
+    color: #92BBDD;
+}
+
+.leaderboard-result{
+    font-size: 26px;
+}
+
+.leaderboard-arrow:hover{
+    -webkit-filter: sepia(50%); /* Safari 6.0 - 9.0 */
+    filter: sepia(50%);
 }
 
 .create-room-form{
     position: fixed;
     left: 50px;
+    transform: translateY(80px);
+}
+
+.user-display{
+    position: fixed;
+    top: 90px;
+    left: 10px;
+}
+
+.user-display-img{
+    position: fixed;
+    top: 10px;
+    left: 20px;
+}
+
+.game-room-start{
+    width: 704px;
+    height: 369px;
+    background-color: #8D23FF;
+    color: white;
+    border-radius: 20px;
+    font-size: 72px;
+    border: none;
+    position: absolute;
+    top: 30px;
+    right: 270px;
+}
+
+.game-room-start:hover{
+    background-color: #270244;
+    color: #999999;
+    cursor: pointer;
+}
+
+.game-room-leave{
+    width: 200px;
+    height: 80px;
+    background-color: #FFFFFF;
+    border-radius: 100px;
+    font-size: 28px;
+    border: none;
+    position: fixed;
+    bottom: 3rem;
+    left: 4rem;
+}
+
+.game-room-leave:hover{
+    background-color: #B8AFD6;
+    cursor: pointer;
+}
+
+.music-player{
+    position: absolute;
+    top: 30px;
+    right: 270px;
+}
+
+.previous-song{
+    position: fixed;
+    right: 50px;
+    top: 30px;
+    text-align: center;
+    width: 200px;
+    height: 500px;
+    max-width: 200px;
+    max-height: 500px;
+}
+
+.previous-song-text{
+    font-size: 24px;
+}
+
+.player-background{
+    margin-bottom: 10px;
+    background-color: #A492DD;
+    width: 350px;
+    max-width: 350px;
+    height: 56px;
+    max-height: 56px;
+    border: #FFFFFF solid 3px;
 }

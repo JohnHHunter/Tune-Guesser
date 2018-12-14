@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request, Flask, jsonify
 from app import app, db, socketio
 from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
-from app.models import player, game_room, song, song_to_game, chat_message
+from app.models import player, game_room, song
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from flask_socketio import SocketIO, send
@@ -96,8 +96,12 @@ def home():
         db.session.commit()
         room.playerCount += 1
         return redirect(url_for('room_game', code=room.code))
-    game_list = game_room.query.all()
-    return render_template('home.html', title='Home', form=form, game_list=game_list)
+    all_games = game_room.query.all()
+    game_list = []
+    for game in all_games:
+        if game.playerCount < 8:
+            game_list.append(game)
+    return render_template('home.html', title='Home', form=form, game_list=game_list, current_user=current_user)
 
 
 @app.route('/leaderboard/all_time', methods=['GET', 'POST'])
@@ -166,7 +170,7 @@ def create_room():
             rooms_with_code = game_room.query.filter_by(code=code).all()
             if not rooms_with_code:
                 break
-        cr = game_room(hostID=current_user.id, playerCount=1, category=form.category.data,
+        cr = game_room(hostID=current_user.id, playerCount=0, category=form.category.data,
                        isActive=False, code=code, created=datetime.utcnow(), updated=datetime.utcnow(),
                        private=form.private.data)
         db.session.add(cr)
@@ -182,6 +186,9 @@ def room_game(code):
     player_list = []
     song_link = ""
     if game:
+        if game.playerCount >= 8:
+            flash("Room is full")
+            return redirect(url_for("home"))
         current_user.roomID = game.id
         current_user.pointsInRoom = 0
         current_user.hasGuessed = False
@@ -189,6 +196,8 @@ def room_game(code):
         db.session.commit()
         for p in players_in_game:
             player_list.append(p)
+        game.playerCount = len(player_list)
+        db.session.commit()
         return render_template('game_room.html', player_list=player_list, title=code, room=game,
                                current_user=current_user, hostID=game.hostID, song_link=song_link)
     return render_template('game_room.html', player_list=player_list, title=code, room=game, song_link=song_link)
@@ -209,7 +218,7 @@ def next_song():
         song_id = curr_song.link
         song_id = song_id[32:]
         youtube = "https://www.youtube.com/embed/"
-        link_end = "?start=" + str(curr_song.startTime) + "&autoplay=1"
+        link_end = "?autoplay=1&showinfo=0&controls=0&amp;" + "start=" + str(curr_song.startTime)
         song_link = youtube + song_id + link_end
         game.current_song = song_link
         game.current_song = curr_song.title

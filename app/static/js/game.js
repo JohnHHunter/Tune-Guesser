@@ -1,13 +1,16 @@
 var previousSong = "?";
 
 function newSong(e){
-    $('#previous').text("Previous Song: "+ previousSong);
+    $('#previous').text(previousSong);
     $('#correct').text("");
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
             code: e
         }, function(data) {
             previousSong = data.song_name;
             document.getElementById("song").src=data.result;
+            document.getElementById("song").width=704;
+            document.getElementById("song").height=369;
+
       });
 }
 
