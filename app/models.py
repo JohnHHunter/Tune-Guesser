@@ -21,6 +21,10 @@ class player(UserMixin, db.Model):
     roomID = db.Column(db.Integer)
     hasGuessed = db.Column(db.Boolean)
     pointsInRoom = db.Column(db.Integer)
+    body = db.Column(db.Integer)
+    eyes = db.Column(db.Integer)
+    mouth = db.Column(db.Integer)
+    accessory = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User: {}>'.format(self.username)

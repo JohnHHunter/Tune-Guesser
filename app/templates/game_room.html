@@ -10,9 +10,7 @@
     <h3 id="previous">Previous Song: ?</h3>
 
     {% if current_user.id == hostID %}
-    <button id="start" type="button" class="btn btn-success"  onclick="game('{{ room.code }}')">
-        Start
-    </button>
+    <button id="start" type="button" class="game-room-start"  onclick="game('{{ room.code }}')">Start</button>
     {% endif %}
 
     <h4 id="correct"></h4>
@@ -42,10 +40,6 @@
 
     <br>
 
-    <button type="button" class="btn btn-danger leave-room">
-        <a style="color: white; text-decoration: none" href="{{ url_for("home") }}">
-            Leave
-        </a>
-    </button>
+    <button onclick="location.href='{{ url_for('home') }}'" type="button" class="game-room-leave">Leave</button>
 
 {% endblock %}
