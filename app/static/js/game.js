@@ -6,10 +6,16 @@ function newSong(e){
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
             code: e
         }, function(data) {
-            previousSong = data.song_name;
-            document.getElementById("song").src=data.result;
-            document.getElementById("song").width=704;
-            document.getElementById("song").height=369;
+            if(data.song_name === previousSong){
+                newSong(e)
+            }
+            else{
+                previousSong = data.song_name;
+                document.getElementById("song").src=data.result;
+                document.getElementById("song").width=704;
+                document.getElementById("song").height=369;
+            }
+
 
       });
 }

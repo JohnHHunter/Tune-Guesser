@@ -200,7 +200,8 @@ def room_game(code):
         db.session.commit()
         return render_template('game_room.html', player_list=player_list, title=code, room=game,
                                current_user=current_user, hostID=game.hostID, song_link=song_link)
-    return render_template('game_room.html', player_list=player_list, title=code, room=game, song_link=song_link)
+    flash("Room does not exist")
+    return redirect(url_for("home"))
 
 
 @app.route('/_next_song', methods=['GET', 'POST'])
@@ -244,6 +245,10 @@ def handle_message(msg):
             else:
                 whole_message = sender + ": " + msg
                 send(whole_message, broadcast=True)
+        else:
+            whole_message = sender + ": " + msg
+            send(whole_message, broadcast=True)
+
 
 
 @app.route('/reset_db')

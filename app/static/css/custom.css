@@ -125,8 +125,20 @@ body{
     border: none;
 }
 
+.msg-send-button{
+    width: 50px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: none;
+}
+
+.msg-send-button:hover{
+    background-color: #B8AFD6;
+}
+
 .chat-input{
-    left: 5px;
+    left: 50%;
+    margin-left: -425px;
     bottom: 3px;
     position: absolute;
 }
@@ -384,4 +396,12 @@ body{
     height: 56px;
     max-height: 56px;
     border: #FFFFFF solid 3px;
+    left: 20px;
+    position: absolute;
+    transform: translateY(100px);
+}
+
+.game-room-header{
+    left: 20px;
+    position: absolute;
 }

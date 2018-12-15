@@ -3,9 +3,11 @@
 
 {% block app_content %}
 
-    <h1 class="game-room-title">
-        Room - {{ room.code }}
-    </h1>
+    <div class="game-room-header">
+        <h1 class="game-room-title">
+            Room - {{ room.code }}
+        </h1>
+    </div>
 
     <div class="previous-song">
         <h3> Previous Song: </h3>
@@ -19,7 +21,7 @@
 
     <h4 id="correct"></h4>
 
-    <h3>Players: </h3>
+
         {% for player in player_list %}
             <div class="player-background">
                 <img src="{{url_for('.static', filename='img/default.jpg')}}" width="50" height="50">
@@ -32,7 +34,7 @@
         <ul class="chat-messages" id="messages"></ul>
         <div class="chat-input">
             <input class="msg-input" type="text" id="myMessage">
-            <button id="sendButton">Send</button>
+            <button class="msg-send-button" id="sendButton">Send</button>
         </div>
 
     </div>
