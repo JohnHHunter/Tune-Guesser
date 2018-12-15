@@ -26,6 +26,13 @@ class player(UserMixin, db.Model):
     mouth = db.Column(db.Integer)
     accessory = db.Column(db.Integer)
 
+    def serialize(self):
+        return {
+            'username': self.username,
+            'pointsInRoom': self.pointsInRoom,
+            'hasGuessed': self.hasGuessed
+        }
+
     def __repr__(self):
         return '<User: {}>'.format(self.username)
 

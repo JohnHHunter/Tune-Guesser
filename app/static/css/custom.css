@@ -396,12 +396,9 @@ body{
     height: 56px;
     max-height: 56px;
     border: #FFFFFF solid 3px;
-    left: 20px;
-    position: absolute;
-    transform: translateY(100px);
+    transform: translateY(50px);
 }
 
 .game-room-header{
-    left: 20px;
-    position: absolute;
+
 }

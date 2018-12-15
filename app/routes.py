@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, Flask, jsonify
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from app import app, db, socketio
 from app.forms import LoginForm, RoomForm, RegistrationForm, JoinByCodeForm
 from app.models import player, game_room, song
@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from flask_socketio import SocketIO, send
 import string
+import json
 import random
 from datetime import datetime
 
@@ -192,8 +193,8 @@ def room_game(code):
         current_user.roomID = game.id
         current_user.pointsInRoom = 0
         current_user.hasGuessed = False
-        players_in_game = player.query.filter_by(roomID=game.id).all()
         db.session.commit()
+        players_in_game = player.query.filter_by(roomID=game.id).all()
         for p in players_in_game:
             player_list.append(p)
         game.playerCount = len(player_list)
@@ -202,6 +203,31 @@ def room_game(code):
                                current_user=current_user, hostID=game.hostID, song_link=song_link)
     flash("Room does not exist")
     return redirect(url_for("home"))
+
+
+@app.route('/_update')
+def update():
+    player_list = []
+    game = game_room.query.filter_by(id=current_user.roomID).first()
+    if game:
+        started = game.isActive
+        players_in_game = player.query.filter_by(roomID=game.id).all()
+        for p in players_in_game:
+            player_list.append(p)
+        game.playerCount = len(player_list)
+        return jsonify(players=[p.serialize() for p in player_list], started=started)
+
+
+@app.route('/_sync_song')
+def sync_song():
+    game = game_room.query.filter_by(id=current_user.roomID).first()
+    curr_song = song.query.filter_by(title=game.current_song).first()
+    if curr_song:
+        song_id = curr_song.link[32:]
+        youtube = "https://www.youtube.com/embed/"
+        link_end = "?autoplay=1&showinfo=0&controls=0&amp;" + "start=" + str(curr_song.startTime)
+        song_link = youtube + song_id + link_end
+        return jsonify(result=song_link)
 
 
 @app.route('/_next_song', methods=['GET', 'POST'])
@@ -248,7 +274,6 @@ def handle_message(msg):
         else:
             whole_message = sender + ": " + msg
             send(whole_message, broadcast=True)
-
 
 
 @app.route('/reset_db')
