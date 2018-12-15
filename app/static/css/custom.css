@@ -399,6 +399,17 @@ body{
     transform: translateY(50px);
 }
 
+.player-background-correct{
+    margin-bottom: 10px;
+    background-color: #8D23FF;
+    width: 350px;
+    max-width: 350px;
+    height: 56px;
+    max-height: 56px;
+    border: #FFFFFF solid 3px;
+    transform: translateY(50px);
+}
+
 .game-room-header{
 
 }

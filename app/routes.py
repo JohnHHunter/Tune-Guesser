@@ -209,13 +209,15 @@ def room_game(code):
 def update():
     player_list = []
     game = game_room.query.filter_by(id=current_user.roomID).first()
+    correct = current_user.hasGuessed
+    user = current_user.id
     if game:
         started = game.isActive
         players_in_game = player.query.filter_by(roomID=game.id).all()
         for p in players_in_game:
             player_list.append(p)
         game.playerCount = len(player_list)
-        return jsonify(players=[p.serialize() for p in player_list], started=started)
+        return jsonify(players=[p.serialize() for p in player_list], started=started, correct=correct, user=user)
 
 
 @app.route('/_sync_song')

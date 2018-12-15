@@ -1,9 +1,9 @@
 var previousSong = "?";
 var isStarted = false;
 var looped = false;
-console.log("looped init - " + looped);
 
 function newSong(e){
+    document.getElementById("hide").hidden=false;
     $('#previous').text(previousSong);
     $('#correct').text("");
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
@@ -15,8 +15,8 @@ function newSong(e){
             else{
                 previousSong = data.song_name;
                 document.getElementById("song").src=data.result;
-                document.getElementById("song").width=704;
-                document.getElementById("song").height=369;
+                document.getElementById("song").width=0;
+                document.getElementById("song").height=0;
             }
 
       });
@@ -36,9 +36,14 @@ $(document).ready(function () {
         }, function(data) {
             var toAdd = '';
             isStarted = data.started;
-            console.log(isStarted);
             for(var i=0; i<data.players.length; i++){
-                toAdd += '<div class="player-background">' + data.players[i].username + ': ' + data.players[i].pointsInRoom + '</div>';
+                console.log(data.user + ":" + data.players[i].id)
+                if(data.user === data.players[i].id && data.correct){
+                    toAdd += '<div class="player-background-correct">' + data.players[i].username + ': ' + data.players[i].pointsInRoom + '</div>';
+                }else{
+                    toAdd += '<div class="player-background">' + data.players[i].username + ': ' + data.players[i].pointsInRoom + '</div>';
+                }
+
             }
             $('#player_list').html(toAdd);
 
@@ -47,6 +52,12 @@ $(document).ready(function () {
                     gameLoop();
                     looped = true;
                 }
+            }
+
+            if(data.correct){
+                document.getElementById("hide").hidden=true;
+                document.getElementById("song").width=704;
+                document.getElementById("song").height=369;
             }
       });
 
@@ -58,12 +69,12 @@ $(document).ready(function () {
     }
 
     function syncSong(){
-        console.log("about to change");
+        document.getElementById("hide").hidden=false;
         $.getJSON($SCRIPT_ROOT + '/_sync_song', {
         }, function(data) {
             document.getElementById("song").src=data.result;
-            document.getElementById("song").width=704;
-            document.getElementById("song").height=369;
+            document.getElementById("song").width=0;
+            document.getElementById("song").height=0;
       });
     }
 
