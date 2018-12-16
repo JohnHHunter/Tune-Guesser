@@ -95,8 +95,8 @@ body{
 }
 
 .chat-box{
-    width: 950px;
-    max-width: 950px;
+    width: 704px;
+    max-width: 704px;
     height:300px;
     max-height:300px;
     display: inline-block;;
@@ -105,20 +105,24 @@ body{
     border: #8D23FF solid 10px;
     margin-bottom: 20px;
     position: absolute;
-    right: 50px;
+    right: 270px;
     bottom: 40px;
 }
 
 .chat-messages{
     color: #A492DD;
+    height: 250px;
     list-style-type: none;
     text-align: left;
+    margin-top: -10px;
     margin-left: -20px;
     font-size: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .msg-input{
-    width: 800px;
+    width: 600px;
     padding-left: 10px;
     color: #FFFFFF;
     background-color: #333333;
@@ -138,7 +142,7 @@ body{
 
 .chat-input{
     left: 50%;
-    margin-left: -425px;
+    margin-left: -325px;
     bottom: 3px;
     position: absolute;
 }
@@ -396,20 +400,22 @@ body{
     height: 56px;
     max-height: 56px;
     border: #FFFFFF solid 3px;
-    transform: translateY(50px);
+    transform: translateY(100px);
 }
 
 .player-background-correct{
     margin-bottom: 10px;
-    background-color: #8D23FF;
+    background-color: #92DDDA;
     width: 350px;
     max-width: 350px;
     height: 56px;
     max-height: 56px;
     border: #FFFFFF solid 3px;
-    transform: translateY(50px);
+    transform: translateY(100px);
+    color: black;
 }
 
 .game-room-header{
-
+    top: 30px;
+    position: absolute;
 }

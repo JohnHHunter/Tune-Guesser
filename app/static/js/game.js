@@ -37,8 +37,7 @@ $(document).ready(function () {
             var toAdd = '';
             isStarted = data.started;
             for(var i=0; i<data.players.length; i++){
-                console.log(data.user + ":" + data.players[i].id)
-                if(data.user === data.players[i].id && data.correct){
+                if(data.players[i].hasGuessed){
                     toAdd += '<div class="player-background-correct">' + data.players[i].username + ': ' + data.players[i].pointsInRoom + '</div>';
                 }else{
                     toAdd += '<div class="player-background">' + data.players[i].username + ': ' + data.players[i].pointsInRoom + '</div>';

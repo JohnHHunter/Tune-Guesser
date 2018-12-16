@@ -209,7 +209,6 @@ def room_game(code):
 def update():
     player_list = []
     game = game_room.query.filter_by(id=current_user.roomID).first()
-    correct = current_user.hasGuessed
     user = current_user.id
     if game:
         started = game.isActive
@@ -217,7 +216,7 @@ def update():
         for p in players_in_game:
             player_list.append(p)
         game.playerCount = len(player_list)
-        return jsonify(players=[p.serialize() for p in player_list], started=started, correct=correct, user=user)
+        return jsonify(players=[p.serialize() for p in player_list], started=started, user=user)
 
 
 @app.route('/_sync_song')
@@ -234,6 +233,7 @@ def sync_song():
 
 @app.route('/_next_song', methods=['GET', 'POST'])
 def next_song():
+    current_user.totalSongsPlayed += 1
     code = request.args.get('code', "")
     game = game_room.query.filter_by(code=code).first()
     current_user.hasGuessed = False
@@ -269,6 +269,8 @@ def handle_message(msg):
                     send(whole_message, broadcast=True)
                     current_user.hasGuessed = True
                     current_user.pointsInRoom += 10
+                    current_user.totalCorrectGuesses += 1
+                    current_user.monthlyCorrectGuesses += 1
                     db.session.commit()
             else:
                 whole_message = sender + ": " + msg
@@ -303,76 +305,122 @@ def reset_db():
             link="https://www.youtube.com/watch?v=PEBS2jbZce4",
             startTime=23),
         song(
-            id=3,
+            id=4,
             artist='Joji',
-            title="XNXX",
-            link="https://www.youtube.com/watch?v=iBUnToeuY18",
-            startTime=22),
+            title="ATTENTION",
+            link="https://www.youtube.com/watch?v=ulMHhPHYCi0",
+            startTime=31),
+        song(
+            id=5,
+            artist='Joji',
+            title="WANTED U",
+            link="https://www.youtube.com/watch?v=z9gVoelEjws",
+            startTime=15),
+        song(
+            id=6,
+            artist='Joji',
+            title="CAN'T GET OVER YOU",
+            link="https://www.youtube.com/watch?v=zbxAB7rTpDc",
+            startTime=70),
+        song(
+            id=7,
+            artist='Joji',
+            title="YEAH RIGHT",
+            link="https://www.youtube.com/watch?v=tG7wLK4aAOE",
+            startTime=21),
+        song(
+            id=8,
+            artist='Joji',
+            title="NO FUN",
+            link="https://www.youtube.com/watch?v=8Vlej7QUGGE",
+            startTime=19),
+        song(
+            id=9,
+            artist='Joji',
+            title="COME THRU",
+            link="https://www.youtube.com/watch?v=7QrEkeXZJLg",
+            startTime=50),
+        song(
+            id=10,
+            artist='Joji',
+            title="will he",
+            link="https://www.youtube.com/watch?v=R2zXxQHBpd8",
+            startTime=37),
 
         # Rex Orange County
         song(
-            id=4,
+            id=11,
             artist='Rex Orange County',
             title="Sunflower",
             link="https://www.youtube.com/watch?v=Z9e7K6Hx_rY",
             startTime=48),
         song(
-            id=5,
+            id=12,
             artist='Rex Orange County',
             title="Loving is Easy",
             link="https://www.youtube.com/watch?v=39IU7ADaXmQ",
             startTime=65),
         song(
-            id=6,
+            id=13,
             artist='Rex Orange County',
-            title="BEST FRIEND ",
+            title="BEST FRIEND",
             link="https://www.youtube.com/watch?v=OqBuXQLR4Y8",
             startTime=30),
+        song(
+            id=14,
+            artist='Rex Orange County',
+            title="Corduroy Dreams",
+            link="https://www.youtube.com/watch?v=oSl7I8ue400",
+            startTime=19),
+        song(
+            id=15,
+            artist='Rex Orange County',
+            title="Untitled",
+            link="https://www.youtube.com/watch?v=Z4lMPWXhAr8",
+            startTime=1),
 
         # The Gunpoets
         song(
-            id=7,
+            id=16,
             artist='The Gunpoets',
             title="Make You Happy",
             link="https://www.youtube.com/watch?v=XigvD9PSknk",
             startTime=14),
         song(
-            id=8,
+            id=17,
             artist='The Gunpoets',
             title="We Sing, We Dance",
             link="https://www.youtube.com/watch?v=1Q5HMoh6CB0",
             startTime=31),
         song(
-            id=9,
+            id=18,
             artist='The Gunpoets',
             title="8 Track Mind",
             link="https://www.youtube.com/watch?v=32iLMq01qi8",
             startTime=8),
+        song(
+            id=19,
+            artist='The Gunpoets',
+            title="In the Dark",
+            link="https://www.youtube.com/watch?v=OeU2qocZ9Lc",
+            startTime=14),
+        song(
+            id=20,
+            artist='The Gunpoets',
+            title="Action, Cameras, Lights",
+            link="https://www.youtube.com/watch?v=oYSgFOqvZ9g",
+            startTime=8),
+        song(
+            id=21,
+            artist='The Gunpoets',
+            title="Beautiful People",
+            link="https://www.youtube.com/watch?v=eBAO9cANYe0",
+            startTime=22),
     ]
 
     players = [
         player(id=1, username='Nobody', email='nobody@email.com', registered=False, totalSongsPlayed=0,
-               totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0),
-        player(id=2, username='player0', email='player0@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=800, monthlySongsPlayed=500, monthlyCorrectGuesses=112),
-        player(id=3, username='player1', email='player1@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=900, monthlySongsPlayed=500, monthlyCorrectGuesses=23),
-        player(id=4, username='player2', email='player2@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=132, monthlySongsPlayed=500, monthlyCorrectGuesses=41),
-        player(id=5, username='player3', email='player3@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=487, monthlySongsPlayed=500, monthlyCorrectGuesses=62),
-        player(id=6, username='player4', email='player4@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=935, monthlySongsPlayed=500, monthlyCorrectGuesses=63),
-        player(id=7, username='player5', email='player5@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=234, monthlySongsPlayed=500, monthlyCorrectGuesses=213),
-        player(id=8, username='player6', email='player6@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=628, monthlySongsPlayed=500, monthlyCorrectGuesses=412),
-        player(id=9, username='player7', email='player7@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=117, monthlySongsPlayed=500, monthlyCorrectGuesses=123),
-        player(id=10, username='player8', email='player8@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=623, monthlySongsPlayed=500, monthlyCorrectGuesses=41),
-        player(id=11, username='player9', email='player9@email.com', registered=True, totalSongsPlayed=1000,
-               totalCorrectGuesses=623, monthlySongsPlayed=500, monthlyCorrectGuesses=349)
+               totalCorrectGuesses=0, monthlySongsPlayed=0, monthlyCorrectGuesses=0)
     ]
 
     for person in players:
