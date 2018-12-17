@@ -31,7 +31,7 @@ function game(e){
 }
 
 $(document).ready(function () {
-    setInterval(update, 1000);
+    setInterval(update, 100);
 
     function update(){
         $.getJSON($SCRIPT_ROOT + '/_update', {

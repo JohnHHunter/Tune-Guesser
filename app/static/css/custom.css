@@ -419,3 +419,9 @@ body{
     top: 30px;
     position: absolute;
 }
+
+.tutorial{
+    position: absolute;
+    right: 375px;
+    bottom: 355px;
+}
