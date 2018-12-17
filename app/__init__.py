@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_socketio import SocketIO
+from flask_sslify import SSLify
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,6 +15,7 @@ login = LoginManager(app)
 login.login_view = 'login'
 bootstrap = Bootstrap(app)
 socketio = SocketIO(app)
+sslify = SSLify(app)
 
 if __name__ == '__main__':
     socketio.run(app)
