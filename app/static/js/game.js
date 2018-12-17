@@ -1,6 +1,7 @@
 var previousSong = "?";
 var isStarted = false;
 var looped = false;
+var host = false;
 
 function newSong(e){
     document.getElementById("hide").style.visibility = 'visible ';
@@ -23,6 +24,7 @@ function newSong(e){
 }
 
 function game(e){
+    host = true;
     document.getElementById('start').style.visibility = 'hidden';
     newSong(e);
     setInterval(newSong, 30000, e);
@@ -63,8 +65,11 @@ $(document).ready(function () {
     }
 
     function gameLoop(){
-        syncSong();
-        setInterval(syncSong, 30010)
+        if(!host){
+            syncSong();
+            setInterval(syncSong, 30010)
+        }
+
     }
 
     function syncSong(){
