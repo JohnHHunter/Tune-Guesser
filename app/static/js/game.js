@@ -3,7 +3,7 @@ var isStarted = false;
 var looped = false;
 
 function newSong(e){
-    document.getElementById("hide").hidden=false;
+    document.getElementById("hide").style.visibility = 'visible ';
     $('#previous').text(previousSong);
     $('#correct').text("");
         $.getJSON($SCRIPT_ROOT + '/_next_song', {
@@ -54,7 +54,7 @@ $(document).ready(function () {
             }
 
             if(data.correct){
-                document.getElementById("hide").hidden=true;
+                document.getElementById("hide").style.visibility = 'hidden';
                 document.getElementById("song").width=704;
                 document.getElementById("song").height=369;
             }
@@ -68,9 +68,11 @@ $(document).ready(function () {
     }
 
     function syncSong(){
+        $('#previous').text(previousSong);
         document.getElementById("hide").hidden=false;
         $.getJSON($SCRIPT_ROOT + '/_sync_song', {
         }, function(data) {
+            previousSong = data.song_name;
             document.getElementById("song").src=data.result;
             document.getElementById("song").width=0;
             document.getElementById("song").height=0;

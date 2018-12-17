@@ -223,12 +223,15 @@ def update():
 def sync_song():
     game = game_room.query.filter_by(id=current_user.roomID).first()
     curr_song = song.query.filter_by(title=game.current_song).first()
+    song_name = curr_song.title
+    current_user.hasGuessed = False
+    db.session.commit()
     if curr_song:
         song_id = curr_song.link[32:]
         youtube = "https://www.youtube.com/embed/"
         link_end = "?autoplay=1&showinfo=0&controls=0&amp;" + "start=" + str(curr_song.startTime)
         song_link = youtube + song_id + link_end
-        return jsonify(result=song_link)
+        return jsonify(result=song_link, song_name=song_name)
 
 
 @app.route('/_next_song', methods=['GET', 'POST'])
