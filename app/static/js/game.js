@@ -82,28 +82,12 @@ $(document).ready(function () {
         $('#myMessage').val('');
     }
 
-    const server = express()
-      .use((req, res) => res.sendFile(INDEX) )
-      .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-    const io = socketIO(server);
-
-    io.on('connection', (socket) => {
-      console.log('Client connected');
-      socket.on('disconnect', () => console.log('Client disconnected'));
-    });
-
-    var socket = io();
-        var el = document.getElementById('server-time');
-
-        socket.on('time', function(timeString) {
-          el.innerHTML = 'Server time: ' + timeString;
-        });
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('echo', function(data){
+                $('#response').html('<p>'+data.echo+'</p>');
+            });
 
     //var socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port + "/" );
-
-    socket.on('connect', function(){
-    });
 
     socket.on('message', function (msg) {
        $("#messages").append('<li>' + msg +'</li>')
