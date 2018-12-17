@@ -82,7 +82,7 @@ $(document).ready(function () {
         $('#myMessage').val('');
     }
 
-    var socket = io.connect('https://agile-springs-33481.herokuapp.com/');
+    var socket = io.connect('http://localhost');
 
     socket.on('connect', function(){
     });
