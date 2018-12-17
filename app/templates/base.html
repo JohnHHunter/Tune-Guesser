@@ -1,7 +1,7 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block scripts %}
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="{{url_for('.static', filename='js/game.js')}}"></script>
     <script type="text/javascript"> var $SCRIPT_ROOT = {{ request.script_root |tojson |safe }};</script>
