@@ -82,7 +82,7 @@ $(document).ready(function () {
         $('#myMessage').val('');
     }
 
-    var socket = io.connect('tuneguesser.com');
+    var socket = io.connect('www.tuneguesser.com');
 
     socket.on('connect', function(){
     });
