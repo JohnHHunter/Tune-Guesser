@@ -82,7 +82,7 @@ $(document).ready(function () {
         $('#myMessage').val('');
     }
 
-    var socket = io.connect('http://localhost');
+    var socket = io.connect(location.protocol + "//" + document.domain + ":" + location.port + "/" );
 
     socket.on('connect', function(){
     });
